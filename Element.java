@@ -1,7 +1,5 @@
 package wargame;
 
-public class Element {
-	
-//KKKKKKKKKKKKKaaaaaaaaaaaaaaaa
+public abstract class Element {
 
 }
