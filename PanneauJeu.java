@@ -1,9 +1,12 @@
 package wargame;
 
 import java.awt.Graphics;
+import javax.swing.*;
 
-public class PanneauJeu implements ICarte {
+public class PanneauJeu extends JPanel implements ICarte {
 
+	Carte c;
+	
 	@Override
 	public Element getElement(Position pos) {
 		// TODO Auto-generated method stub

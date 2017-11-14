@@ -20,6 +20,7 @@ public interface ISoldat {
          return values()[(int)(Math.random()*values().length)];
       }
    }
+   
    public static enum TypesM {
       TROLL (100,1,30,0), ORC (40,2,10,3), GOBELIN (20,2,5,2);
       private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
