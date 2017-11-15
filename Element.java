@@ -2,6 +2,7 @@ package wargame;
 
 import java.awt.Color;
 
+
 /**
  * Classe element qui renvoie et modife
  * La position la couleur et la visibiliter
