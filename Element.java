@@ -2,7 +2,6 @@ package wargame;
 
 import java.awt.Color;
 
-
 /**
  * Classe element qui renvoie et modife
  * La position la couleur et la visibiliter
@@ -10,7 +9,6 @@ import java.awt.Color;
  */
 
 public abstract class Element implements IConfig {
-
 	protected Position position;
 	protected boolean elementVisible;
 	protected Color couleur;
@@ -53,7 +51,7 @@ public abstract class Element implements IConfig {
 		this.elementVisible=elementVisible;
 	}
 	
-	/******* toString peut etre utile pour decrire l'element  *******/
+	/******* toString *******/
 	
 	/**
 	 * Class toString pour la description de l'elemnt
@@ -68,6 +66,9 @@ public abstract class Element implements IConfig {
 			return s+=" invisible";
 		
 	}
+	
 
-
+	
+	
+	
 }
