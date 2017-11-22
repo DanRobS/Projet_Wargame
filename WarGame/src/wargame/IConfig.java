@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public interface IConfig 
 {
-	int LARGEUR_CARTE = 25; int HAUTEUR_CARTE = 15; // en nombre de cases
+	int LARGEUR_CARTE = 50; int HAUTEUR_CARTE = 30; // en nombre de cases
 	int NB_PIX_CASE = 20;
 	int POSITION_X = 100; int POSITION_Y = 50; // Position de la fenêtre
 	int NB_HEROS = 6; int NB_MONSTRES = 15; int NB_OBSTACLES = 20;
