@@ -1,12 +1,15 @@
 package wargame;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
-public class Case implements Dessinable
+public class Case
 {
 	private int x,y;
-	private Color couleur = Color.DARK_GRAY;
+	private Color couleurCase = Color.DARK_GRAY;
+	private Color couleurTxt = Color.WHITE;
+	private String nom = "";
 	
 	public void setPos(int _x, int _y)
 	{
@@ -16,15 +19,23 @@ public class Case implements Dessinable
 	
 	public void setColor(Color _couleur)
 	{
-		couleur = _couleur;
+		couleurCase = _couleur;
+	}
+	
+	public void setNom(String _nom)
+	{
+		nom = _nom;
 	}
 	
 	public void seDessiner(Graphics g)
 	{
-		g.setColor(couleur);
+		g.setColor(couleurCase);
 		for(int i = 0; i < 50; i++)
 		{
 			g.drawLine(x+i, y, x+i, y+50);
 		}
+		g.setColor(couleurTxt);
+		g.setFont((new Font("Courier New", Font.PLAIN, 40)));
+		g.drawString(nom, x+10, y+40);
 	}
 }

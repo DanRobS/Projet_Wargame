@@ -8,11 +8,12 @@ import wargame.Obstacle.TypeObstacle;
 public class Carte implements ICarte, IConfig
 {
 	private Element tabElem[][];
-	private int nbHeros, nbMonstres;
+	private int nbHeros, nbMonstres, tour;
 	private double deplacementX, deplacementY;
 	
 	public Carte()
 	{
+		tour = 0;
 		deplacementX = deplacementY = 0;
 		tabElem = new Element[30][15];
 		for(int i = 0; i<30;i++)
@@ -90,7 +91,7 @@ public class Carte implements ICarte, IConfig
 		{
 			for(itForh = 0; itForh < 15; itForh++)
 			{
-				tabElem[itForl][itForh].box.seDessiner(g);;
+				tabElem[itForl][itForh].box.seDessiner(g);
 			}
 		}
 	}
@@ -102,4 +103,6 @@ public class Carte implements ICarte, IConfig
 	public void setDeplacementX(double x) { deplacementX = x; }
 	
 	public void setDeplacementY(double y) { deplacementY = y; }
+	
+	public int getTour() { return tour; }
 }
