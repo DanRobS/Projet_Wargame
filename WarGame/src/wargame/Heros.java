@@ -7,5 +7,5 @@ public class Heros extends Soldat
 	{
 		super(carte, pts, portee, puiss, tir, pos);
 	}
-
+	
 }

@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 public class Case
 {
+	private Element elem;
 	private int x,y;
 	private Color couleurCase = Color.DARK_GRAY;
 	private Color couleurTxt = Color.WHITE;
@@ -26,6 +27,8 @@ public class Case
 	{
 		nom = _nom;
 	}
+	
+	public Element getElement() { return elem; }
 	
 	public void seDessiner(Graphics g)
 	{

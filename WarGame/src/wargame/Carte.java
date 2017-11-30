@@ -2,36 +2,45 @@ package wargame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import wargame.Obstacle.TypeObstacle;
 
 public class Carte implements ICarte, IConfig
 {
-	private Element tabElem[][];
+	private ArrayList<ArrayList<Case>> tabCase; //A remplacer par arraylist
+	private ArrayList<Case> ligne;
+	
 	private int nbHeros, nbMonstres, tour;
 	private double deplacementX, deplacementY;
 	
 	public Carte()
 	{
 		tour = 0;
+		
+		
+		//Génération de la carte
 		deplacementX = deplacementY = 0;
-		tabElem = new Element[30][15];
+		tabCase = new ArrayList<ArrayList<Case>>();
+		ligne = new ArrayList<Case>();
 		for(int i = 0; i<30;i++)
 		{
 			for(int j = 0; j < 15; j++)
 			{
-				tabElem[i][j] = new Element();
-				tabElem[i][j].box.setColor(Color.BLUE);
-				tabElem[i][j].box.setPos(i*51+1, j*52+1);
+				ligne.add(new Case());
+				ligne.get(j).setColor(Color.BLUE);
+				ligne.get(j).setPos(i*51+1, j*52+1);
 			}
+			tabCase.add(ligne);
+			ligne = new ArrayList<Case>();
 		}
 	}
 	
 	
 	@Override
-	public Element getElement(Position pos) 
+	public Case getElement(Position pos) 
 	{
-		return tabElem[pos.getX()][pos.getY()];
+		return tabCase.get(pos.getX()).get(pos.getY());
 	}
 
 	@Override
@@ -91,7 +100,7 @@ public class Carte implements ICarte, IConfig
 		{
 			for(itForh = 0; itForh < 15; itForh++)
 			{
-				tabElem[itForl][itForh].box.seDessiner(g);
+				tabCase.get(itForl).get(itForh).seDessiner(g);
 			}
 		}
 	}

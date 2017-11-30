@@ -135,7 +135,7 @@ public class PanneauJeu extends JPanel implements IConfig
 			public void mouseDragged(MouseEvent e)
 			{
 				
-				carteJeu.getElement(new Position(xTab,yTab)).box.setPos((int)e.getX()-25, (int)e.getY()-25);
+				carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
 				tableau.repaint();
 			}
 		});
