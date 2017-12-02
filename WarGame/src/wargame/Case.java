@@ -29,6 +29,7 @@ public class Case
 	}
 	
 	public Element getElement() { return elem; }
+	public void setElement(Element _elem) {  elem = _elem; }
 	
 	public void seDessiner(Graphics g)
 	{

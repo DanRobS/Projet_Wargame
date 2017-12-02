@@ -16,8 +16,10 @@ public class Obstacle extends Element
 		{
 			return values()[(int)(Math.random()*values().length)];
 		}
+		public Color getColor() {return COULEUR;}
 	}
 	private TypeObstacle TYPE;
 	Obstacle(TypeObstacle type, Position pos) { TYPE = type; this.pos = pos; }
 	public String toString() { return ""+TYPE; }
+	public Position getPos() {return pos;}
 }
