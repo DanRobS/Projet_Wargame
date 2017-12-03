@@ -22,6 +22,9 @@ public class Obstacle extends Element {
 		public static TypeObstacle getObstacleAlea() {
 			return values()[(int)(Math.random()*values().length)];
 		}
+		public Color getColor(){
+			return COULEUR;
+		}
 	}
 	
 	private TypeObstacle TYPE;
@@ -33,6 +36,10 @@ public class Obstacle extends Element {
 	
 	public String toString(){ 
 		return ""+TYPE; 
+	}
+
+	public Position getPos() {
+		return pos;
 	}
 
 	/*

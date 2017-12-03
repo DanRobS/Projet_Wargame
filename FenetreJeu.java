@@ -34,11 +34,11 @@ public class FenetreJeu extends JFrame {
 	 */
 	public FenetreJeu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 828, 673);
+		setBounds(100, 100, 1565, 1000);
 		setTitle("War Game");
 		
 		game = new PanneauJeu();
-		game.setBounds(12, 29, 786, 543);
+		game.setBounds(12, 24, 1531, 871);
 		game.setBackground(Color.DARK_GRAY);
 		
 		contentPane = new JPanel();
@@ -50,7 +50,7 @@ public class FenetreJeu extends JFrame {
 		setContentPane(contentPane);
 		
 		JButton btnPasserLeTour = new JButton("Passer le tour");
-		btnPasserLeTour.setBounds(120, 580, 158, 33);
+		btnPasserLeTour.setBounds(112, 907, 158, 33);
 		contentPane.add(btnPasserLeTour);
 	}
 }

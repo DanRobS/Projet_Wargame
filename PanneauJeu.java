@@ -1,70 +1,168 @@
 package wargame;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
-import javax.swing.*;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 
-public class PanneauJeu extends JPanel implements ICarte {
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-	Carte c;
+
+public class PanneauJeu extends JPanel implements IConfig
+{
+	private JButton btnFdT;
+	private Carte carteJeu;
+	private Box box;
+	private JLabel labelHaut, labelBas;
+	private JPanel tableau;
 	
-	@Override
-	public Element getElement(Position pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Position trouvePositionVide() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Position trouvePositionVide(Position pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Heros trouveHeros() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Heros trouveHeros(Position pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void mort(Soldat perso) {
-		// TODO Auto-generated method stub
+	private int xTab, yTab;
+	
+	public PanneauJeu()
+	{
+		carteJeu = new Carte();
 		
-	}
-
-	@Override
-	public boolean actionHeros(Position pos, Position pos2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void jouerSoldats(PanneauJeu pj) {
-		// TODO Auto-generated method stub
+		/*Organisation*/
+		setLayout(new BorderLayout());
 		
-	}
-
-	@Override
-	public void toutDessiner(Graphics g) {
-		// TODO Auto-generated method stub
+		/*Tableau de jeu*/
+		tableau = new JPanel()
+				{
+					public void paintComponent(Graphics g)
+					{	
+						super.paintComponent(g);
+						carteJeu.toutDessiner(g);
+					}
+				};
+		tableau.setBackground(Color.BLACK);
+		//tableau.setAutoscrolls(false);
+		add("Center", tableau);
 		
-	}
+		/*Boutton Fin de tour*/
+		btnFdT = new JButton("Fin de tour");
+		btnFdT.setMinimumSize(new Dimension(200, 50));
+		btnFdT.setMaximumSize(new Dimension(200, 50));
+		btnFdT.setPreferredSize(new Dimension(200,50));
+		btnFdT.setFont(new Font("Courier New", Font.ITALIC, 20));
+		
+		btnFdT.addActionListener(new ActionListener()
+				{
+					public void actionPerformed (ActionEvent e)
+					{
+						Toolkit.getDefaultToolkit().beep();
+						
+						repaint();
+					}
+				});
+		
+		
+		/*Texte avec bouton*/
+		labelHaut = new JLabel();
+		labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
+		labelHaut.setFont(new Font("Courier New", Font.ITALIC, 20));
+		
+		
+		/*Box bar*/
+		box = Box.createHorizontalBox();
+		box.add(Box.createHorizontalGlue());
+		box.add(btnFdT);
+		box.add(labelHaut);
+		box.add(Box.createHorizontalGlue());
+		box.setOpaque(true);
+		box.setBackground(Color.LIGHT_GRAY);
+		box.setPreferredSize(new Dimension(0, 60));
+		add("North", box);
+		
+		
+		/*Texte en bas*/
+		labelBas = new JLabel();
+		labelBas.setText("Description de l'unité sélectionnée");
+		labelBas.setFont(new Font("Courier New", Font.ITALIC, 20));
+		labelBas.setOpaque(true);
+		labelBas.setBackground(Color.LIGHT_GRAY);
+		labelBas.setPreferredSize(new Dimension(0, 30));
+		add("South", labelBas);
+		
+		
+		/*Gestion clic*/
+		tableau.addMouseListener(new MouseListener()
+				{
+					public void mouseEntered(MouseEvent e)
+					{
+						
+					}
+			
+					public void mousePressed(MouseEvent e)
+					{
+						Toolkit.getDefaultToolkit().beep();
+						
+						xTab = (int)e.getX()/51;
+						yTab = (int)e.getY()/51;
+						System.out.println(xTab+"      "+yTab);
+					}
+					
+					public void mouseClicked(MouseEvent e)
+					{
+						
+					}
+					
+					public void mouseReleased(MouseEvent e)
+					{
+						
+					}
+					
+					public void mouseExited(MouseEvent e)
+					{
+						
+					}
+				});
+		
+		tableau.addMouseMotionListener(new MouseMotionAdapter()
+		{
+			public void mouseDragged(MouseEvent e)
+			{
+				
+				carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
+				tableau.repaint();
+			}
+		});
+		
+		this.addKeyListener(new KeyAdapter() {
 
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) 
+            {
+            	tableau.getGraphics().translate(100, 100);
+            	Toolkit.getDefaultToolkit().beep();
+            	repaint();
+            }
+        });
+		
+		tableau.setFocusable(true);
+		tableau.requestFocusInWindow();
+	}
+	
+	public void paintComponent(Graphics g)
+	{	
+		super.paintComponent(g);
+	}
 }
