@@ -8,7 +8,7 @@ package wargame;
  */
 
 
-public class Soldat extends Element implements ISoldat{
+public abstract class Soldat extends Element implements ISoldat{
 	protected final char MONSTRE = 'M', HERO = 'H';/*Type de soldat*/
 	protected int nbrPointsVie;
 	protected final int PORTEE_VISUELLE;
