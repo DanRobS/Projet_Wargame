@@ -16,10 +16,6 @@ public class Carte implements ICarte, IConfig
 	private ArrayList<Monstre> monstre;
 	private ArrayList<Obstacle> obstacle;
 	
-	private TypesH[]heros;
-	private TypesM[]monstres;
-	private TypeObstacle[]obstacles;
-	
 	private int tour;
 	private double deplacementX, deplacementY;
 	
@@ -117,8 +113,13 @@ public class Carte implements ICarte, IConfig
 		{
 			for(itForh = 0; itForh < HAUTEUR_CARTE; itForh++)
 			{
-				tabCase[itForl][itForh].seDessiner(g);
+				if(!hero.contains(tabCase[itForl][itForh].getElement())) tabCase[itForl][itForh].seDessiner(g);
 			}
+		}
+		
+		for(itForl = 0; itForl < hero.size(); itForl++)
+		{
+			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].seDessiner(g);
 		}
 	}
 
@@ -149,6 +150,7 @@ public class Carte implements ICarte, IConfig
 			hero.add(hr);
 			tabCase[pos.getX()][pos.getY()].setElement(hr);
 			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_HEROS);
+			tabCase[pos.getX()][pos.getY()].peutBouger = true;
 		}
 	}
 	

@@ -109,9 +109,13 @@ public class PanneauJeu extends JPanel implements IConfig
 					{
 						Toolkit.getDefaultToolkit().beep();
 						
-						xTab = (int)e.getX()/51;
-						yTab = (int)e.getY()/51;
+						xTab = (int)e.getX()/(NB_PIX_CASE+1);
+						yTab = (int)e.getY()/(NB_PIX_CASE+1);
 						System.out.println(xTab+"      "+yTab);
+						if(xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
+						{
+							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.pink);
+						}
 					}
 					
 					public void mouseClicked(MouseEvent e)
@@ -121,7 +125,7 @@ public class PanneauJeu extends JPanel implements IConfig
 					
 					public void mouseReleased(MouseEvent e)
 					{
-						
+						repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white);
 					}
 					
 					public void mouseExited(MouseEvent e)
@@ -134,9 +138,11 @@ public class PanneauJeu extends JPanel implements IConfig
 		{
 			public void mouseDragged(MouseEvent e)
 			{
-				
-				carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
-				tableau.repaint();
+				if(xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
+				{
+					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
+					tableau.repaint();
+				}
 			}
 		});
 		
@@ -164,5 +170,22 @@ public class PanneauJeu extends JPanel implements IConfig
 	public void paintComponent(Graphics g)
 	{	
 		super.paintComponent(g);
+	}
+	
+	public void repeindreVide(Case _case, Color _couleur)
+	{
+		int itForl, itForh;
+		
+		for(itForl = _case.getElement().getPos().getX()-((Soldat) _case.getElement()).getPortee(); itForl <= _case.getElement().getPos().getX()+((Soldat) _case.getElement()).getPortee(); itForl++)
+		{
+			for(itForh = _case.getElement().getPos().getY()-((Soldat) _case.getElement()).getPortee(); itForh <= _case.getElement().getPos().getY()+((Soldat) _case.getElement()).getPortee(); itForh++)
+			{
+				if(itForl >= 0 && itForl < LARGEUR_CARTE && itForh >= 0 && itForh < HAUTEUR_CARTE && carteJeu.getElement(new Position(itForl, itForh)).isVide)
+				{
+					carteJeu.getElement(new Position(itForl, itForh)).setColor(_couleur);
+				}
+			}
+		}
+		repaint();
 	}
 }

@@ -11,6 +11,13 @@ public class Case
 	private Color couleurCase = Color.DARK_GRAY;
 	private Color couleurTxt = Color.WHITE;
 	private String nom = "";
+	public boolean peutBouger, isVide;
+	
+	public Case()
+	{
+		peutBouger = false;
+		isVide = true;
+	}
 	
 	public void setPos(int _x, int _y)
 	{
@@ -29,7 +36,11 @@ public class Case
 	}
 	
 	public Element getElement() { return elem; }
-	public void setElement(Element _elem) {  elem = _elem; }
+	public void setElement(Element _elem) 
+	{
+		elem = _elem; 
+		isVide = false;
+	}
 	
 	public void seDessiner(Graphics g)
 	{
