@@ -29,9 +29,7 @@ public class Carte implements ICarte, IConfig
 		{
 			for(int j = 0; j < HAUTEUR_CARTE; j++)
 			{
-				tabCase[i][j] = new Case();
-				tabCase[i][j].setColor(Color.WHITE);
-				tabCase[i][j].setPos(i*(NB_PIX_CASE+1)+1, j*(NB_PIX_CASE+2)+1);
+				tabCase[i][j] = new Case(i*(NB_PIX_CASE+1)+1, j*(NB_PIX_CASE+2)+1);
 			}
 		}
 		
@@ -119,6 +117,7 @@ public class Carte implements ICarte, IConfig
 		
 		for(itForl = 0; itForl < hero.size(); itForl++)
 		{
+			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].setColor(COULEUR_HEROS);
 			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].seDessiner(g);
 		}
 	}
@@ -234,5 +233,18 @@ public class Carte implements ICarte, IConfig
 		}while(!isGood);
 		
 		return pos;
+	}
+	
+	public void resetCase(Case _case)
+	{
+		tabCase[_case.getPosTab().getX()][_case.getPosTab().getY()] = new Case(_case.getPos().getX(), _case.getPos().getY());
+	}
+	
+	public void setHero(Heros _hero, Case _case)
+	{
+		_hero.seDeplace(_case.getPosTab());
+		tabCase[_case.getPosTab().getX()][_case.getPosTab().getY()].setElement(_hero);
+		_case.peutBouger = true;
+		_case.setColor(COULEUR_HEROS);
 	}
 }

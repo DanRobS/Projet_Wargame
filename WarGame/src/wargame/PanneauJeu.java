@@ -28,8 +28,10 @@ public class PanneauJeu extends JPanel implements IConfig
 	private Box box;
 	private JLabel labelHaut, labelBas;
 	private JPanel tableau;
+	private boolean enDeplacement = false;
 	
-	private int xTab, yTab;
+	private int xTab, yTab, xAvant, yAvant;
+	private Position avDeplacement;
 	
 	public PanneauJeu()
 	{
@@ -114,6 +116,8 @@ public class PanneauJeu extends JPanel implements IConfig
 						System.out.println(xTab+"      "+yTab);
 						if(xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
 						{
+							avDeplacement = new Position(carteJeu.getElement(new Position(xTab,yTab)).getPos().getX(),carteJeu.getElement(new Position(xTab,yTab)).getPos().getY());
+							enDeplacement = true;
 							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.pink);
 						}
 					}
@@ -125,7 +129,31 @@ public class PanneauJeu extends JPanel implements IConfig
 					
 					public void mouseReleased(MouseEvent e)
 					{
-						repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white);
+						int nX,nY;
+						if(enDeplacement)
+						{
+							nX = (int)e.getX()/(NB_PIX_CASE+1);
+							nY = (int)e.getY()/(NB_PIX_CASE+1);
+							
+							carteJeu.getElement(new Position(xTab,yTab)).setPos(avDeplacement.getX(), avDeplacement.getY());
+							
+							if(nX < LARGEUR_CARTE && nY < HAUTEUR_CARTE && carteJeu.getElement(new Position(nX,nY)).getColor() == Color.pink)
+							{
+								System.out.println("OK" + xTab + " | " + yTab);
+								repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white);
+								((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).seDeplace(new Position(nX,nY));
+								carteJeu.getElement(new Position(nX,nY)).setElement(carteJeu.getElement(new Position(xTab,yTab)).getElement());
+								System.out.println(xTab + " | " + yTab + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPosTab() + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPos());
+								carteJeu.getElement(new Position(nX,nY)).isVide = false;
+								carteJeu.getElement(new Position(nX,nY)).peutBouger = true;
+								carteJeu.getElement(new Position(xTab,yTab)).reset();
+							}
+							else
+							{
+								repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white);
+							}
+							enDeplacement = false;
+						}
 					}
 					
 					public void mouseExited(MouseEvent e)
@@ -170,6 +198,7 @@ public class PanneauJeu extends JPanel implements IConfig
 	public void paintComponent(Graphics g)
 	{	
 		super.paintComponent(g);
+		carteJeu.toutDessiner(g);
 	}
 	
 	public void repeindreVide(Case _case, Color _couleur)

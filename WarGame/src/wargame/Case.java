@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-public class Case
+public class Case implements IConfig
 {
 	private Element elem;
 	private int x,y;
@@ -13,10 +13,13 @@ public class Case
 	private String nom = "";
 	public boolean peutBouger, isVide;
 	
-	public Case()
+	public Case(int _x, int _y)
 	{
+		x = _x;
+		y = _y;
 		peutBouger = false;
 		isVide = true;
+		couleurCase = Color.CYAN;
 	}
 	
 	public void setPos(int _x, int _y)
@@ -52,5 +55,17 @@ public class Case
 		g.setColor(couleurTxt);
 		g.setFont((new Font("Courier New", Font.PLAIN, 40)));
 		g.drawString(nom, x+10, y+40);
+	}
+	
+	public Color getColor() { return couleurCase; }
+	
+	public Position getPosTab() { return new Position(x/(NB_PIX_CASE+1),y/(NB_PIX_CASE+1)); }
+	public Position getPos() { return new Position(x,y); }
+	public void reset()
+	{
+		elem = null;
+		peutBouger = false;
+		isVide = true;
+		couleurCase = COULEUR_VIDE;
 	}
 }
