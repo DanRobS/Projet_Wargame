@@ -39,6 +39,9 @@ public abstract class Soldat extends Element implements ISoldat
 	}
 	
 	public int getPoints() { return pointsDeVie; }
+	public int getPointsMax() { return POINTS_DE_VIE_MAX; }
+	public int getPuissance() { return PUISSANCE; }
+	public int getTir() { return TIR; }
 	public int getTour() { return carte.getTour(); }
 	public int getPortee() { return PORTEE_VISUELLE; }
 	public int getPorteeDepl() { return PORTEE_DEPLACEMENT; }

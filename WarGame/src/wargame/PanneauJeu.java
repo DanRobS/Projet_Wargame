@@ -14,11 +14,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import wargame.ISoldat.TypesH;
 
 
 public class PanneauJeu extends JPanel implements IConfig
@@ -186,7 +189,7 @@ public class PanneauJeu extends JPanel implements IConfig
 					}
 				});
 		
-		tableau.addMouseMotionListener(new MouseMotionAdapter()
+		tableau.addMouseMotionListener(new MouseMotionListener()
 		{
 			public void mouseDragged(MouseEvent e)
 			{
@@ -196,6 +199,40 @@ public class PanneauJeu extends JPanel implements IConfig
 					tableau.repaint();
 				}
 			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) 
+			{
+				int posX,posY;
+				String labelTxt;
+				Color coulSelect;
+				Soldat soldat;
+				
+				posX = (int)e.getX()/(NB_PIX_CASE+1);
+				posY = (int)e.getY()/(NB_PIX_CASE+1);
+				if(posX < LARGEUR_CARTE && posY < HAUTEUR_CARTE)
+				{
+					labelTxt = "X : "+posX+" | Y : "+posY;
+					coulSelect = carteJeu.getElement(new Position(posX,posY)).getColor();
+					if(coulSelect == COULEUR_HEROS)
+					{
+						soldat = (Soldat) carteJeu.getElement(new Position(posX,posY)).getElement();
+						labelTxt = labelTxt.concat("     Hero : "+ ((Heros) soldat).getType() + " | PV=" + soldat.getPoints()+"/"+soldat.getPointsMax()+" | Puissance="+soldat.getPuissance()+" | Tir="+soldat.getTir());
+					}
+					else if(coulSelect == COULEUR_MONSTRES)
+					{
+						soldat = (Soldat) carteJeu.getElement(new Position(posX,posY)).getElement();
+						labelTxt = labelTxt.concat("     Monstre : "+ ((Monstre) soldat).getType() + " |PV=" + soldat.getPoints()+"/"+soldat.getPointsMax()+" | Puissance="+soldat.getPuissance()+" | Tir="+soldat.getTir());
+					}
+					else if(coulSelect == COULEUR_EAU || coulSelect == COULEUR_ROCHER || coulSelect == COULEUR_FORET)
+					{
+						labelTxt = labelTxt.concat("     "+(Obstacle) carteJeu.getElement(new Position(posX,posY)).getElement());
+					}
+					
+					labelBas.setText(labelTxt);
+				}
+			}
+			
 		});
 		
 		this.addKeyListener(new KeyAdapter() {
