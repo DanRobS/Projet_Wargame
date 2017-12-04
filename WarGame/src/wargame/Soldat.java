@@ -29,7 +29,14 @@ public abstract class Soldat extends Element implements ISoldat
 	/*Combat entre deux soldats*/
 	public void combat(Soldat soldat) 
 	{
-		
+		if(getPos().estVoisine(soldat.getPos()))	//Corps à corps
+		{
+			soldat.setDegat(getPuissance());
+		}
+		else	//Distance
+		{
+			soldat.setDegat(getTir());
+		}
 	}
 
 	/*Gère le déplacement d'un soldat*/
@@ -46,4 +53,9 @@ public abstract class Soldat extends Element implements ISoldat
 	public int getPortee() { return PORTEE_VISUELLE; }
 	public int getPorteeDepl() { return PORTEE_DEPLACEMENT; }
 	public Position getPos() { return pos; }
+	public void setDegat(int _degat)
+	{
+		pointsDeVie -= _degat;
+		if(pointsDeVie <= 0) carte.mort(this);
+	}
 }

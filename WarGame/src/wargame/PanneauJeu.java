@@ -177,6 +177,7 @@ public class PanneauJeu extends JPanel implements IConfig
 							if(Math.abs(nX-xTab) <= ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl() && Math.abs(nY-yTab) <= ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl() && carteJeu.getElement(new Position(nX,nY)).getColor() == COULEUR_MONSTRES)
 							{
 								System.out.println("Cible attaquée");
+								((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).combat(((Soldat) carteJeu.getElement(new Position(nX,nY)).getElement()));
 							}
 							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl());
 							enAttaque = false;

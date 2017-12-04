@@ -85,9 +85,9 @@ public class Carte implements ICarte, IConfig
 	}
 
 	@Override
-	public void mort(Soldat perso) {
-		// TODO Auto-generated method stub
-		
+	public void mort(Soldat perso) 
+	{
+		tabCase[perso.getPos().getX()][perso.getPos().getY()].reset();
 	}
 
 	@Override
