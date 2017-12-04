@@ -57,10 +57,10 @@ public class PanneauJeu extends JPanel implements IConfig
 		add("Center", tableau);
 		
 		/*Boutton Fin de tour*/
-		btnFdT = new JButton("Fin de tour");
-		btnFdT.setMinimumSize(new Dimension(200, 50));
-		btnFdT.setMaximumSize(new Dimension(200, 50));
-		btnFdT.setPreferredSize(new Dimension(200,50));
+		btnFdT = new JButton("Fin du tour "+carteJeu.getTour());
+		btnFdT.setMinimumSize(new Dimension(300, 50));
+		btnFdT.setMaximumSize(new Dimension(300, 50));
+		btnFdT.setPreferredSize(new Dimension(300,50));
 		btnFdT.setFont(new Font("Courier New", Font.ITALIC, 20));
 		
 		btnFdT.addActionListener(new ActionListener()
@@ -68,8 +68,9 @@ public class PanneauJeu extends JPanel implements IConfig
 					public void actionPerformed (ActionEvent e)
 					{
 						Toolkit.getDefaultToolkit().beep();
-						
-						repaint();
+						carteJeu.addTour();
+						btnFdT.setText("Fin du tour "+carteJeu.getTour());
+						labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
 					}
 				});
 		

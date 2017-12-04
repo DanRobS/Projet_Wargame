@@ -21,7 +21,7 @@ public class Carte implements ICarte, IConfig
 	
 	public Carte()
 	{
-		tour = 0;
+		tour = 1;
 		
 		//Initialisation du tableau
 		tabCase = new Case[LARGEUR_CARTE][HAUTEUR_CARTE];
@@ -88,6 +88,7 @@ public class Carte implements ICarte, IConfig
 	public void mort(Soldat perso) 
 	{
 		tabCase[perso.getPos().getX()][perso.getPos().getY()].reset();
+		//le retirer de la liste hero ou monstre
 	}
 
 	@Override
@@ -247,4 +248,7 @@ public class Carte implements ICarte, IConfig
 		_case.peutBouger = true;
 		_case.setColor(COULEUR_HEROS);
 	}
+
+
+	public void addTour() { tour++; }
 }
