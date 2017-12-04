@@ -145,7 +145,7 @@ public class Carte implements ICarte, IConfig
 		{
 			h = TypesH.getTypeHAlea();
 			pos = getRandom(0,0,(int)(LARGEUR_CARTE/4),HAUTEUR_CARTE);
-			hr = new Heros(this, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos);
+			hr = new Heros(this, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(),h.getPorteeDepl(), pos);
 			hero.add(hr);
 			tabCase[pos.getX()][pos.getY()].setElement(hr);
 			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_HEROS);
@@ -166,7 +166,7 @@ public class Carte implements ICarte, IConfig
 		{
 			m = TypesM.getTypeMAlea();
 			pos = getRandom((int)(LARGEUR_CARTE-(LARGEUR_CARTE/4)),0,LARGEUR_CARTE,HAUTEUR_CARTE);
-			mstr = new Monstre(this, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos);
+			mstr = new Monstre(this, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), m.getPorteeDepl(), pos);
 			monstre.add(mstr);
 			tabCase[pos.getX()][pos.getY()].setElement(mstr);
 			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_MONSTRES);

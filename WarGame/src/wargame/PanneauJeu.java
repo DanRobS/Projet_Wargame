@@ -29,7 +29,7 @@ public class PanneauJeu extends JPanel implements IConfig
 	private JLabel labelHaut, labelBas;
 	private JPanel tableau;
 	private boolean enDeplacement = false;
-	
+	private boolean enAttaque = false;
 	private int xTab, yTab, xAvant, yAvant;
 	private Position avDeplacement;
 	
@@ -114,11 +114,17 @@ public class PanneauJeu extends JPanel implements IConfig
 						xTab = (int)e.getX()/(NB_PIX_CASE+1);
 						yTab = (int)e.getY()/(NB_PIX_CASE+1);
 						System.out.println(xTab+"      "+yTab);
-						if(xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
+						if(e.getButton() == MouseEvent.BUTTON1 && xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
 						{
 							avDeplacement = new Position(carteJeu.getElement(new Position(xTab,yTab)).getPos().getX(),carteJeu.getElement(new Position(xTab,yTab)).getPos().getY());
 							enDeplacement = true;
-							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.pink);
+							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.pink, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPortee());
+						}
+						else if(e.getButton() == MouseEvent.BUTTON3 && xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
+						{
+							avDeplacement = new Position(carteJeu.getElement(new Position(xTab,yTab)).getPos().getX(),carteJeu.getElement(new Position(xTab,yTab)).getPos().getY());
+							enAttaque = true;
+							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.yellow, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl());
 						}
 					}
 					
@@ -130,6 +136,8 @@ public class PanneauJeu extends JPanel implements IConfig
 					public void mouseReleased(MouseEvent e)
 					{
 						int nX,nY;
+						
+						//Déplacement
 						if(enDeplacement)
 						{
 							nX = (int)e.getX()/(NB_PIX_CASE+1);
@@ -140,7 +148,7 @@ public class PanneauJeu extends JPanel implements IConfig
 							if(nX < LARGEUR_CARTE && nY < HAUTEUR_CARTE && carteJeu.getElement(new Position(nX,nY)).getColor() == Color.pink)
 							{
 								System.out.println("OK" + xTab + " | " + yTab);
-								repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white);
+								repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPortee());
 								((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).seDeplace(new Position(nX,nY));
 								carteJeu.getElement(new Position(nX,nY)).setElement(carteJeu.getElement(new Position(xTab,yTab)).getElement());
 								System.out.println(xTab + " | " + yTab + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPosTab() + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPos());
@@ -150,9 +158,25 @@ public class PanneauJeu extends JPanel implements IConfig
 							}
 							else
 							{
-								repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white);
+								repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPortee());
 							}
 							enDeplacement = false;
+						}
+						
+						//Attaque
+						if(enAttaque)
+						{
+							nX = (int)e.getX()/(NB_PIX_CASE+1);
+							nY = (int)e.getY()/(NB_PIX_CASE+1);
+							
+							carteJeu.getElement(new Position(xTab,yTab)).setPos(avDeplacement.getX(), avDeplacement.getY());
+							
+							if(Math.abs(nX-xTab) <= ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl() && Math.abs(nY-yTab) <= ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl() && carteJeu.getElement(new Position(nX,nY)).getColor() == COULEUR_MONSTRES)
+							{
+								System.out.println("Cible attaquée");
+							}
+							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl());
+							enAttaque = false;
 						}
 					}
 					
@@ -201,13 +225,13 @@ public class PanneauJeu extends JPanel implements IConfig
 		carteJeu.toutDessiner(g);
 	}
 	
-	public void repeindreVide(Case _case, Color _couleur)
+	public void repeindreVide(Case _case, Color _couleur, int _rayon)//((Soldat) _case.getElement()).getPorteeDepl()
 	{
 		int itForl, itForh;
 		
-		for(itForl = _case.getElement().getPos().getX()-((Soldat) _case.getElement()).getPortee(); itForl <= _case.getElement().getPos().getX()+((Soldat) _case.getElement()).getPortee(); itForl++)
+		for(itForl = _case.getElement().getPos().getX()-_rayon; itForl <= _case.getElement().getPos().getX()+_rayon; itForl++)
 		{
-			for(itForh = _case.getElement().getPos().getY()-((Soldat) _case.getElement()).getPortee(); itForh <= _case.getElement().getPos().getY()+((Soldat) _case.getElement()).getPortee(); itForh++)
+			for(itForh = _case.getElement().getPos().getY()-_rayon; itForh <= _case.getElement().getPos().getY()+_rayon; itForh++)
 			{
 				if(itForl >= 0 && itForl < LARGEUR_CARTE && itForh >= 0 && itForh < HAUTEUR_CARTE && carteJeu.getElement(new Position(itForl, itForh)).isVide)
 				{

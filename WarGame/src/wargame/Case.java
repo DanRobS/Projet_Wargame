@@ -19,7 +19,7 @@ public class Case implements IConfig
 		y = _y;
 		peutBouger = false;
 		isVide = true;
-		couleurCase = Color.CYAN;
+		couleurCase = COULEUR_VIDE;
 	}
 	
 	public void setPos(int _x, int _y)
