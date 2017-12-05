@@ -35,9 +35,12 @@ public class PanneauJeu extends JPanel implements IConfig
 	private boolean enAttaque = false;
 	private int xTab, yTab, xAvant, yAvant;
 	private Position avDeplacement;
+	private boolean peutJouer, peutAttaquer, peutBouger;
 	
 	public PanneauJeu()
 	{
+		peutJouer = true;
+		
 		carteJeu = new Carte();
 		
 		/*Organisation*/
@@ -68,9 +71,13 @@ public class PanneauJeu extends JPanel implements IConfig
 					public void actionPerformed (ActionEvent e)
 					{
 						Toolkit.getDefaultToolkit().beep();
+						
+						//Lancer IA
+						jouerIA();
+						
+						//Debloquer joueur et ajouter tour
 						carteJeu.addTour();
 						btnFdT.setText("Fin du tour "+carteJeu.getTour());
-						labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
 					}
 				});
 		
@@ -117,14 +124,14 @@ public class PanneauJeu extends JPanel implements IConfig
 						
 						xTab = (int)e.getX()/(NB_PIX_CASE+1);
 						yTab = (int)e.getY()/(NB_PIX_CASE+1);
-						System.out.println(xTab+"      "+yTab);
-						if(e.getButton() == MouseEvent.BUTTON1 && xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
+						//System.out.println(xTab+"      "+yTab);
+						if(e.getButton() == MouseEvent.BUTTON1 && xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true && ((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutBouger == true)
 						{
 							avDeplacement = new Position(carteJeu.getElement(new Position(xTab,yTab)).getPos().getX(),carteJeu.getElement(new Position(xTab,yTab)).getPos().getY());
 							enDeplacement = true;
 							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.pink, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPortee());
 						}
-						else if(e.getButton() == MouseEvent.BUTTON3 && xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
+						else if(e.getButton() == MouseEvent.BUTTON3 && xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true && ((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutAttaquer == true)
 						{
 							avDeplacement = new Position(carteJeu.getElement(new Position(xTab,yTab)).getPos().getX(),carteJeu.getElement(new Position(xTab,yTab)).getPos().getY());
 							enAttaque = true;
@@ -142,7 +149,7 @@ public class PanneauJeu extends JPanel implements IConfig
 						int nX,nY;
 						
 						//Déplacement
-						if(enDeplacement)
+						if(enDeplacement && peutJouer)
 						{
 							nX = (int)e.getX()/(NB_PIX_CASE+1);
 							nY = (int)e.getY()/(NB_PIX_CASE+1);
@@ -151,11 +158,12 @@ public class PanneauJeu extends JPanel implements IConfig
 							
 							if(nX < LARGEUR_CARTE && nY < HAUTEUR_CARTE && carteJeu.getElement(new Position(nX,nY)).getColor() == Color.pink)
 							{
-								System.out.println("OK" + xTab + " | " + yTab);
+								((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutBouger = false;
+								//System.out.println("OK" + xTab + " | " + yTab);
 								repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPortee());
 								((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).seDeplace(new Position(nX,nY));
 								carteJeu.getElement(new Position(nX,nY)).setElement(carteJeu.getElement(new Position(xTab,yTab)).getElement());
-								System.out.println(xTab + " | " + yTab + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPosTab() + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPos());
+								//System.out.println(xTab + " | " + yTab + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPosTab() + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPos());
 								carteJeu.getElement(new Position(nX,nY)).isVide = false;
 								carteJeu.getElement(new Position(nX,nY)).peutBouger = true;
 								carteJeu.getElement(new Position(xTab,yTab)).reset();
@@ -168,7 +176,7 @@ public class PanneauJeu extends JPanel implements IConfig
 						}
 						
 						//Attaque
-						if(enAttaque)
+						if(enAttaque && peutJouer)
 						{
 							nX = (int)e.getX()/(NB_PIX_CASE+1);
 							nY = (int)e.getY()/(NB_PIX_CASE+1);
@@ -177,8 +185,10 @@ public class PanneauJeu extends JPanel implements IConfig
 							
 							if(Math.abs(nX-xTab) <= ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl() && Math.abs(nY-yTab) <= ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl() && carteJeu.getElement(new Position(nX,nY)).getColor() == COULEUR_MONSTRES)
 							{
-								System.out.println("Cible attaquée");
+								((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutAttaquer = false;
 								((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).combat(((Soldat) carteJeu.getElement(new Position(nX,nY)).getElement()));
+								labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
+								((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutAttaquer = false;
 							}
 							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl());
 							enAttaque = false;
@@ -195,11 +205,23 @@ public class PanneauJeu extends JPanel implements IConfig
 		{
 			public void mouseDragged(MouseEvent e)
 			{
+				/*
 				if(xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
 				{
 					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
 					tableau.repaint();
+				}*/
+				
+				if(enDeplacement && ((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutBouger == true)
+				{
+					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
+					tableau.repaint();
 				}
+				else if(enAttaque && ((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutAttaquer == true)
+				{
+					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
+					tableau.repaint();
+				} 
 			}
 
 			@Override
@@ -261,7 +283,7 @@ public class PanneauJeu extends JPanel implements IConfig
 	public void paintComponent(Graphics g)
 	{	
 		super.paintComponent(g);
-		carteJeu.toutDessiner(g);
+		//carteJeu.toutDessiner(g);
 	}
 	
 	public void repeindreVide(Case _case, Color _couleur, int _rayon)//((Soldat) _case.getElement()).getPorteeDepl()
@@ -279,5 +301,15 @@ public class PanneauJeu extends JPanel implements IConfig
 			}
 		}
 		repaint();
+	}
+	
+	public void jouerIA()
+	{
+		peutJouer = false;
+		carteJeu.jouerSoldats(this);
+		repaint();
+		labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
+		peutJouer = true;
+		
 	}
 }

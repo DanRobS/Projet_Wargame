@@ -72,10 +72,25 @@ public class Carte implements ICarte, IConfig
 		return null;
 	}
 
-	@Override
-	public Heros trouveHeros(Position pos) {
-		// TODO Auto-generated method stub
-		return null;
+	//Trouve le héro le plus près de cette position
+	public Heros trouveHeros(Position pos) 
+	{
+		int itFor;
+		Heros hr;
+		int distance;
+		int h = 0;
+		
+		distance = hero.get(0).getPos().distance(pos);
+		
+		for(itFor = 1; itFor < hero.size(); itFor++)
+		{
+			if(distance > hero.get(itFor).getPos().distance(pos)) 
+			{
+				distance = hero.get(itFor).getPos().distance(pos); 
+				h = itFor;
+			}
+		}
+		return hero.get(h);
 	}
 
 	@Override
@@ -88,7 +103,8 @@ public class Carte implements ICarte, IConfig
 	public void mort(Soldat perso) 
 	{
 		tabCase[perso.getPos().getX()][perso.getPos().getY()].reset();
-		//le retirer de la liste hero ou monstre
+		hero.remove(perso);
+		monstre.remove(perso);
 	}
 
 	@Override
@@ -97,10 +113,27 @@ public class Carte implements ICarte, IConfig
 		return false;
 	}
 
-	@Override
-	public void jouerSoldats(PanneauJeu pj) {
-		// TODO Auto-generated method stub
+	//IA
+	public void jouerSoldats(PanneauJeu pj) 
+	{
+		int itFor;
+		Heros hr;
 		
+		for(itFor = 0; itFor < monstre.size(); itFor++)
+		{
+			hr = trouveHeros(monstre.get(itFor).getPos());
+			
+			//Attaque si possible
+			if(hr.getPos().distance(monstre.get(itFor).getPos())<= monstre.get(itFor).getPortee())
+			{
+				monstre.get(itFor).combat(hr);
+			}
+			else
+			{
+				//Déplacement aléatoire de 1 case
+				
+			}
+		}
 	}
 
 	//Utile pour afficher le tableau de jeu
@@ -142,7 +175,7 @@ public class Carte implements ICarte, IConfig
 		Heros hr;
 						
 		//Instructions
-		for(itFor = 0; itFor < NB_MONSTRES; itFor++)
+		for(itFor = 0; itFor < NB_HEROS; itFor++)
 		{
 			h = TypesH.getTypeHAlea();
 			pos = getRandom(0,0,(int)(LARGEUR_CARTE/4),HAUTEUR_CARTE);
@@ -214,20 +247,11 @@ public class Carte implements ICarte, IConfig
 			yRand = random.nextInt(_yMax - _yMin) + _yMin;
 			
 			pos = new Position(xRand, yRand);
-			for(itFor = 0; itFor < obstacle.size(); itFor++)
-			{
-				if(obstacle.get(itFor).getPos() == pos) continue debut;
-			}
+			for(itFor = 0; itFor < obstacle.size(); itFor++) if(obstacle.get(itFor).getPos().getX() == xRand && obstacle.get(itFor).getPos().getY() == yRand) continue debut;
 			
-			for(itFor = 0; itFor < hero.size(); itFor++)
-			{
-				if(hero.get(itFor).getPos() == pos) continue debut;
-			}
+			for(itFor = 0; itFor < hero.size(); itFor++) if(hero.get(itFor).getPos().getX() == xRand && hero.get(itFor).getPos().getY() == yRand) continue debut;
 			
-			for(itFor = 0; itFor < monstre.size(); itFor++)
-			{
-				if(monstre.get(itFor).getPos() == pos) continue debut;
-			}
+			for(itFor = 0; itFor < monstre.size(); itFor++) if(monstre.get(itFor).getPos().getX() == xRand && monstre.get(itFor).getPos().getY() == yRand) continue debut;
 			
 			isGood = true;
 			
@@ -250,5 +274,16 @@ public class Carte implements ICarte, IConfig
 	}
 
 
-	public void addTour() { tour++; }
+	public void addTour() 
+	{
+		int itFor;
+		
+		for(itFor = 0; itFor < hero.size(); itFor++)
+		{
+			((Heros)tabCase[hero.get(itFor).getPos().getX()][hero.get(itFor).getPos().getY()].getElement()).peutBouger = true;
+			((Heros)tabCase[hero.get(itFor).getPos().getX()][hero.get(itFor).getPos().getY()].getElement()).peutAttaquer = true;
+		}
+		
+		tour++; 
+	}
 }

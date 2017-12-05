@@ -4,11 +4,13 @@ public class Heros extends Soldat
 {
 	private final String NOM;
 	private final TypesH TYPE;
+	public boolean peutAttaquer, peutBouger;
 	
 	public Heros(Carte carte, TypesH type, String nom, Position pos) {
 		super(carte, type.getPoints(), type.getPortee(),type.getPuissance(), type.getTir(), type.getPorteeDepl(), pos);
 		NOM = nom; 
 		TYPE = type;
+		peutAttaquer = peutBouger = true;
 	}
 
 	@Override
