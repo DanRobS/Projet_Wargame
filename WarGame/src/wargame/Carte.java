@@ -109,10 +109,12 @@ public class Carte implements ICarte, IConfig
 		if(hero.isEmpty()) 
 		{
 			//C'est perdu
+			
 		}
 		else if(monstre.isEmpty())
 		{
 			//C'est gagne
+			
 		}
 	}
 
@@ -266,16 +268,16 @@ public class Carte implements ICarte, IConfig
 		random = new Random();
 		isGood = false;
 		
+		if(_xMin < 0) _xMin = 0;
+		if(_xMax >= LARGEUR_CARTE) _xMax = LARGEUR_CARTE-1;
+		if(_yMin < 0) _yMin = 0;
+		if(_yMax >= HAUTEUR_CARTE) _yMax = HAUTEUR_CARTE-1;
+		
 		//Instructions
 		debut : do
-		{
-			if(_xMin < 0) _xMin = 0;
-			if(_xMax >= LARGEUR_CARTE) _xMax = LARGEUR_CARTE-1;
-			if(_yMin < 0) _yMin = 0;
-			if(_yMax >= HAUTEUR_CARTE) _yMax = HAUTEUR_CARTE-1;
-			
-			xRand = random.nextInt(_xMax - _xMin) + _xMin;
-			yRand = random.nextInt(_yMax - _yMin) + _yMin;
+		{	
+			xRand = (int)( Math.random()*( _xMax - _xMin + 1) ) + _xMin;
+			yRand = (int)( Math.random()*( _yMax - _yMin + 1) ) + _yMin;
 			
 			pos = new Position(xRand, yRand);
 		
@@ -283,7 +285,12 @@ public class Carte implements ICarte, IConfig
 			
 			for(itFor = 0; itFor < hero.size(); itFor++) if(hero.get(itFor).getPos().getX() == xRand && hero.get(itFor).getPos().getY() == yRand) continue debut;
 			
-			for(itFor = 0; itFor < monstre.size(); itFor++) if(monstre.get(itFor).getPos().getX() == xRand && monstre.get(itFor).getPos().getY() == yRand) continue debut;
+			for(itFor = 0; itFor < monstre.size(); itFor++) if(monstre.get(itFor).getPos().getX() == xRand && monstre.get(itFor).getPos().getY() == yRand) 
+			{
+				System.out.println("Blocage ["+xRand+","+yRand+"] ["+monstre.get(itFor).getPos().getX()+","+monstre.get(itFor).getPos().getY()+"]");
+				
+				continue debut;
+			}
 			
 			isGood = true;
 			
