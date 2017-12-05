@@ -8,8 +8,8 @@ public class FenetreJeu implements IConfig
 
 	public static void main(String[] args) 
 	{
-		PanneauJeu panneau = new PanneauJeu();
 		JFrame frame = new JFrame("Test");
+		PanneauJeu panneau = new PanneauJeu(frame);
 		//frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //IMPORTANT -> libérer mémoire
 		frame.setSize(1920, 1080);

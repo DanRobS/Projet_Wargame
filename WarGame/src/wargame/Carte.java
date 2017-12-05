@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import wargame.ISoldat.TypesH;
 import wargame.ISoldat.TypesM;
 import wargame.Obstacle.TypeObstacle;
@@ -100,7 +102,7 @@ public class Carte implements ICarte, IConfig
 	}
 
 	@Override
-	public void mort(Soldat perso) 
+	public void mort(Soldat perso) throws FinDuJeu 
 	{
 		tabCase[perso.getPos().getX()][perso.getPos().getY()].reset();
 		hero.remove(perso);
@@ -109,12 +111,12 @@ public class Carte implements ICarte, IConfig
 		if(hero.isEmpty()) 
 		{
 			//C'est perdu
-			
+			throw new FinDuJeu(1);
 		}
 		else if(monstre.isEmpty())
 		{
 			//C'est gagne
-			
+			throw new FinDuJeu(0);
 		}
 	}
 
@@ -125,7 +127,7 @@ public class Carte implements ICarte, IConfig
 	}
 
 	//IA
-	public void jouerSoldats(PanneauJeu pj) 
+	public void jouerSoldats(PanneauJeu pj) throws FinDuJeu 
 	{
 		int itFor;
 		Heros hr;

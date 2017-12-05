@@ -18,7 +18,9 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import wargame.ISoldat.TypesH;
@@ -36,9 +38,11 @@ public class PanneauJeu extends JPanel implements IConfig
 	private int xTab, yTab, xAvant, yAvant;
 	private Position avDeplacement;
 	private boolean peutJouer, peutAttaquer, peutBouger;
+	private JFrame frame;
 	
-	public PanneauJeu()
+	public PanneauJeu(JFrame _frame)
 	{
+		frame = _frame;
 		peutJouer = true;
 		
 		carteJeu = new Carte();
@@ -186,7 +190,12 @@ public class PanneauJeu extends JPanel implements IConfig
 							if(Math.abs(nX-xTab) <= ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl() && Math.abs(nY-yTab) <= ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl() && carteJeu.getElement(new Position(nX,nY)).getColor() == COULEUR_MONSTRES)
 							{
 								((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutAttaquer = false;
-								((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).combat(((Soldat) carteJeu.getElement(new Position(nX,nY)).getElement()));
+								try {
+									((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).combat(((Soldat) carteJeu.getElement(new Position(nX,nY)).getElement()));
+								} catch (FinDuJeu e1) {
+									JOptionPane.showMessageDialog(frame,"Vous avez gagne");
+									frame.dispose();
+								}
 								labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
 								((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutAttaquer = false;
 							}
@@ -306,7 +315,13 @@ public class PanneauJeu extends JPanel implements IConfig
 	public void jouerIA()
 	{
 		peutJouer = false;
-		carteJeu.jouerSoldats(this);
+		try {
+			carteJeu.jouerSoldats(this);
+		} catch (FinDuJeu e) 
+		{
+			JOptionPane.showMessageDialog(this,"Les Monstres Gagnent la partie");
+			frame.dispose();
+		}
 		repaint();
 		labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
 		peutJouer = true;

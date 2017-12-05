@@ -11,8 +11,8 @@ public interface ICarte
 	Heros trouveHeros(Position pos); // Trouve un héros choisi aléatoirement
 									 // parmi les 8 positions adjacentes de pos
 	boolean deplaceSoldat(Position pos, Soldat soldat);
-	void mort(Soldat perso);
+	void mort(Soldat perso) throws FinDuJeu;
 	boolean actionHeros(Position pos, Position pos2);
-	void jouerSoldats(PanneauJeu pj);
+	void jouerSoldats(PanneauJeu pj) throws FinDuJeu;
 	void toutDessiner(Graphics g);
 }

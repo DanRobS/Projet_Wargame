@@ -12,7 +12,7 @@ public interface IConfig
 	int POSITION_Y = 50; // Position de la fenêtre
 	
 	int NB_HEROS = 6;
-	int NB_MONSTRES = 15;
+	int NB_MONSTRES = 1;
 	int NB_OBSTACLES = 20;
 	
 	Color COULEUR_VIDE = Color.white;
