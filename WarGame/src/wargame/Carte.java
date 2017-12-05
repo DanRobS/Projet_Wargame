@@ -105,6 +105,15 @@ public class Carte implements ICarte, IConfig
 		tabCase[perso.getPos().getX()][perso.getPos().getY()].reset();
 		hero.remove(perso);
 		monstre.remove(perso);
+		
+		if(hero.isEmpty()) 
+		{
+			//C'est perdu
+		}
+		else if(monstre.isEmpty())
+		{
+			//C'est gagne
+		}
 	}
 
 	@Override
@@ -118,11 +127,12 @@ public class Carte implements ICarte, IConfig
 	{
 		int itFor;
 		Heros hr;
+		Position depl, avant;
 		
 		for(itFor = 0; itFor < monstre.size(); itFor++)
 		{
 			hr = trouveHeros(monstre.get(itFor).getPos());
-			
+			avant = monstre.get(itFor).getPos();
 			//Attaque si possible
 			if(hr.getPos().distance(monstre.get(itFor).getPos())<= monstre.get(itFor).getPortee())
 			{
@@ -131,6 +141,22 @@ public class Carte implements ICarte, IConfig
 			else
 			{
 				//Déplacement aléatoire de 1 case
+				depl = getRandom(monstre.get(itFor).getPos().getX()-monstre.get(itFor).getPorteeDepl(), monstre.get(itFor).getPos().getY()-monstre.get(itFor).getPorteeDepl(), monstre.get(itFor).getPos().getX()+monstre.get(itFor).getPorteeDepl(), monstre.get(itFor).getPos().getY()+monstre.get(itFor).getPorteeDepl());
+				
+				//System.out.println("X : "+depl.getX()+" | Y : "+depl.getY());
+				
+				getElement(depl).setElement(getElement(monstre.get(itFor).getPos()).getElement());
+				
+				getElement(depl).setColor(COULEUR_MONSTRES);
+				
+				monstre.get(itFor).seDeplace(depl);
+				
+				getElement(avant).reset();
+				
+				
+				
+				
+				//System.out.println(xTab + " | " + yTab + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPosTab() + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPos());
 				
 			}
 		}
@@ -243,10 +269,16 @@ public class Carte implements ICarte, IConfig
 		//Instructions
 		debut : do
 		{
+			if(_xMin < 0) _xMin = 0;
+			if(_xMax >= LARGEUR_CARTE) _xMax = LARGEUR_CARTE-1;
+			if(_yMin < 0) _yMin = 0;
+			if(_yMax >= HAUTEUR_CARTE) _yMax = HAUTEUR_CARTE-1;
+			
 			xRand = random.nextInt(_xMax - _xMin) + _xMin;
 			yRand = random.nextInt(_yMax - _yMin) + _yMin;
 			
 			pos = new Position(xRand, yRand);
+		
 			for(itFor = 0; itFor < obstacle.size(); itFor++) if(obstacle.get(itFor).getPos().getX() == xRand && obstacle.get(itFor).getPos().getY() == yRand) continue debut;
 			
 			for(itFor = 0; itFor < hero.size(); itFor++) if(hero.get(itFor).getPos().getX() == xRand && hero.get(itFor).getPos().getY() == yRand) continue debut;
