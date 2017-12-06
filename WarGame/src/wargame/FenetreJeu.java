@@ -1,6 +1,5 @@
 package wargame;
 
-import java.awt.Color;
 import javax.swing.JFrame;
 
 public class FenetreJeu implements IConfig

@@ -2,6 +2,8 @@ package wargame;
 
 import java.awt.Graphics;
 
+import javax.swing.JPanel;
+
 public interface ICarte 
 {
 	Case getElement(Position pos);
@@ -14,5 +16,5 @@ public interface ICarte
 	void mort(Soldat perso) throws FinDuJeu;
 	boolean actionHeros(Position pos, Position pos2);
 	void jouerSoldats(PanneauJeu pj) throws FinDuJeu;
-	void toutDessiner(Graphics g);
+	void toutDessiner(Graphics g, JPanel panneau);
 }

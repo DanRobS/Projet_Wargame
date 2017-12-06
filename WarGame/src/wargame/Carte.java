@@ -1,11 +1,10 @@
 package wargame;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import wargame.ISoldat.TypesH;
 import wargame.ISoldat.TypesM;
@@ -19,8 +18,6 @@ public class Carte implements ICarte, IConfig
 	private ArrayList<Obstacle> obstacle;
 	
 	private int tour;
-	private double deplacementX, deplacementY;
-	
 	public Carte()
 	{
 		tour = 1;
@@ -42,9 +39,6 @@ public class Carte implements ICarte, IConfig
 		initObstacle();
 		initHero();
 		initMonstre();
-		
-		//Génération de la carte
-		deplacementX = deplacementY = 0;
 		
 		
 	}
@@ -78,7 +72,6 @@ public class Carte implements ICarte, IConfig
 	public Heros trouveHeros(Position pos) 
 	{
 		int itFor;
-		Heros hr;
 		int distance;
 		int h = 0;
 		
@@ -167,22 +160,59 @@ public class Carte implements ICarte, IConfig
 	}
 
 	//Utile pour afficher le tableau de jeu
-	public void toutDessiner(Graphics g) 
+	public void toutDessiner(Graphics g, JPanel panneau) 
 	{
-		int itForl, itForh;
+		int itForl, itForh, itFor1, itFor2, xMin, xMax, yMin, yMax;
 		
 		for(itForl = 0; itForl < LARGEUR_CARTE; itForl++)
 		{
 			for(itForh = 0; itForh < HAUTEUR_CARTE; itForh++)
 			{
-				if(!hero.contains(tabCase[itForl][itForh].getElement())) tabCase[itForl][itForh].seDessiner(g);
+				if(!hero.contains(tabCase[itForl][itForh].getElement())) 
+				{
+					//tabCase[itForl][itForh].setColor(COULEUR_INCONNU);
+					tabCase[itForl][itForh].seDessiner(g, panneau);
+				}
 			}
 		}
 		
 		for(itForl = 0; itForl < hero.size(); itForl++)
 		{
+			/*
+			xMin=hero.get(itForl).getPos().getX()-hero.get(itForl).getPorteeDepl();
+			xMax=hero.get(itForl).getPos().getX()+hero.get(itForl).getPorteeDepl();
+			yMin=hero.get(itForl).getPos().getY()-hero.get(itForl).getPorteeDepl();
+			yMax=hero.get(itForl).getPos().getY()+hero.get(itForl).getPorteeDepl();
+			
+			if(xMin < 0) xMin = 0;
+			if(yMin < 0) yMin = 0;
+			if(xMax >= LARGEUR_CARTE) xMax = LARGEUR_CARTE-1;
+			if(yMax >= HAUTEUR_CARTE) yMax = HAUTEUR_CARTE-1;
+			for(itFor1 = xMin; itFor1 < xMax; itFor1++)
+			{
+				for(itFor2 = yMin; itFor2 < yMax; itFor2++)
+				{
+					if(tabCase[itFor1][itFor2].isVide)
+					{
+						tabCase[itFor1][itFor2].setColor(COULEUR_VIDE);
+						tabCase[itFor1][itFor2].seDessiner(g);
+					}
+					else if(monstre.contains(tabCase[itFor1][itFor2].getElement()))
+					{
+						tabCase[itFor1][itFor2].setColor(COULEUR_MONSTRES);
+						tabCase[itFor1][itFor2].seDessiner(g);
+					}
+					else if(obstacle.contains(tabCase[itFor1][itFor2].getElement()))
+					{
+						tabCase[itFor1][itFor2].setColor(COULEUR_EAU);
+						tabCase[itFor1][itFor2].seDessiner(g);
+					}
+					
+				}
+			}
+			*/
 			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].setColor(COULEUR_HEROS);
-			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].seDessiner(g);
+			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].seDessiner(g,panneau);
 		}
 	}
 
@@ -190,9 +220,9 @@ public class Carte implements ICarte, IConfig
 	
 	public int getNbMonstres() { return monstre.size(); }
 	
-	public void setDeplacementX(double x) { deplacementX = x; }
+	public void setDeplacementX(double x) { }
 	
-	public void setDeplacementY(double y) { deplacementY = y; }
+	public void setDeplacementY(double y) { }
 	
 	public int getTour() { return tour; }
 	
@@ -262,12 +292,10 @@ public class Carte implements ICarte, IConfig
 	{
 		//Declarations
 		Position pos;
-		Random random;
 		boolean isGood;
 		int xRand, yRand, itFor;
 		
-		//Initializations
-		random = new Random();
+		new Random();
 		isGood = false;
 		
 		if(_xMin < 0) _xMin = 0;

@@ -4,16 +4,16 @@ import java.awt.Color;
 
 public interface IConfig 
 {
-	int LARGEUR_CARTE = 30; // en nombre de cases
-	int HAUTEUR_CARTE = 15; // en nombre de cases
+	int LARGEUR_CARTE = 75; // en nombre de cases
+	int HAUTEUR_CARTE = 50; // en nombre de cases
 	int NB_PIX_CASE = 50;
 	
 	int POSITION_X = 100; // Position de la fenêtre
 	int POSITION_Y = 50; // Position de la fenêtre
 	
-	int NB_HEROS = 6;
-	int NB_MONSTRES = 1;
-	int NB_OBSTACLES = 20;
+	int NB_HEROS = 20;
+	int NB_MONSTRES = 30;
+	int NB_OBSTACLES = 100;
 	
 	Color COULEUR_VIDE = Color.white;
 	Color COULEUR_INCONNU = Color.lightGray;

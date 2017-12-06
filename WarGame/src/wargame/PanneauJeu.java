@@ -10,24 +10,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import wargame.ISoldat.TypesH;
+import javax.swing.JToolTip;
+import javax.swing.ToolTipManager;
+import javax.tools.Tool;
 
 
 public class PanneauJeu extends JPanel implements IConfig
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton btnFdT;
 	private Carte carteJeu;
 	private Box box;
@@ -35,13 +46,15 @@ public class PanneauJeu extends JPanel implements IConfig
 	private JPanel tableau;
 	private boolean enDeplacement = false;
 	private boolean enAttaque = false;
-	private int xTab, yTab, xAvant, yAvant;
+	private int xTab, yTab;
 	private Position avDeplacement;
-	private boolean peutJouer, peutAttaquer, peutBouger;
+	private boolean peutJouer;
 	private JFrame frame;
+	private int deplX, deplY;
 	
 	public PanneauJeu(JFrame _frame)
 	{
+		deplX = deplY = 0;		
 		frame = _frame;
 		peutJouer = true;
 		
@@ -53,35 +66,54 @@ public class PanneauJeu extends JPanel implements IConfig
 		/*Tableau de jeu*/
 		tableau = new JPanel()
 				{
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
 					public void paintComponent(Graphics g)
 					{	
 						super.paintComponent(g);
-						carteJeu.toutDessiner(g);
+						g.translate(deplX, deplY);
+						carteJeu.toutDessiner(g, this);
 					}
 				};
 		tableau.setBackground(Color.BLACK);
 		//tableau.setAutoscrolls(false);
 		add("Center", tableau);
 		
+		
 		/*Boutton Fin de tour*/
-		btnFdT = new JButton("Fin du tour "+carteJeu.getTour());
+		btnFdT = new JButton(new ImageIcon("C:\\Users\\VOCAN\\git\\Projet_Wargame\\WarGame\\src\\Images\\test.jpg"));
+		btnFdT.setFocusable(false);
 		btnFdT.setMinimumSize(new Dimension(300, 50));
 		btnFdT.setMaximumSize(new Dimension(300, 50));
 		btnFdT.setPreferredSize(new Dimension(300,50));
-		btnFdT.setFont(new Font("Courier New", Font.ITALIC, 20));
 		
 		btnFdT.addActionListener(new ActionListener()
 				{
+					
 					public void actionPerformed (ActionEvent e)
 					{
-						Toolkit.getDefaultToolkit().beep();
+						/*try {
+		                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("C:\\Users\\VOCAN\\git\\Projet_Wargame\\WarGame\\src\\Musiques\\fichier.wav"));
+		                    // Get a sound clip resource.
+		                    Clip clip = AudioSystem.getClip();
+		                    // Open audio clip and load samples from the audio input stream.
+		                    clip.open(audioIn);
+		                } catch (UnsupportedAudioFileException e1) {
+		                    e1.printStackTrace();
+		                } catch (IOException e1) {
+		                    e1.printStackTrace();
+		                } catch (LineUnavailableException e1) {
+		                    e1.printStackTrace();
+		                }*/
 						
 						//Lancer IA
 						jouerIA();
 						
 						//Debloquer joueur et ajouter tour
 						carteJeu.addTour();
-						btnFdT.setText("Fin du tour "+carteJeu.getTour());
 					}
 				});
 		
@@ -102,7 +134,7 @@ public class PanneauJeu extends JPanel implements IConfig
 		box.setBackground(Color.LIGHT_GRAY);
 		box.setPreferredSize(new Dimension(0, 60));
 		add("North", box);
-		
+		btnFdT.setToolTipText("Boutton fin du tour");
 		
 		/*Texte en bas*/
 		labelBas = new JLabel();
@@ -245,6 +277,11 @@ public class PanneauJeu extends JPanel implements IConfig
 				posY = (int)e.getY()/(NB_PIX_CASE+1);
 				if(posX < LARGEUR_CARTE && posY < HAUTEUR_CARTE)
 				{
+					
+		
+					
+					
+					
 					labelTxt = "X : "+posX+" | Y : "+posY;
 					coulSelect = carteJeu.getElement(new Position(posX,posY)).getColor();
 					if(coulSelect == COULEUR_HEROS)
@@ -279,13 +316,29 @@ public class PanneauJeu extends JPanel implements IConfig
             @Override
             public void keyPressed(KeyEvent e) 
             {
-            	tableau.getGraphics().translate(100, 100);
-            	Toolkit.getDefaultToolkit().beep();
-            	repaint();
+            	char key = e.getKeyChar();
+            	switch(key)
+            	{
+            	case 'z':
+            		deplY-=10;
+            		tableau.repaint();
+            		break;
+            	case 'q':
+            		deplX-=10;
+            		tableau.repaint();
+            		break;
+            	case 's':
+            		deplY+=10;
+            		tableau.repaint();
+            		break;
+            	case 'd':
+            		deplX+=10;
+            		tableau.repaint();
+            		break;
+            	}
             }
         });
 		
-		tableau.setFocusable(true);
 		tableau.requestFocusInWindow();
 	}
 	

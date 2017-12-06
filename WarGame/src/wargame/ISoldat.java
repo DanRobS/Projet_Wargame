@@ -3,7 +3,7 @@ public interface ISoldat
 {
    static enum TypesH 
    {
-      HUMAIN (40,30,10,2,3), NAIN (80,10,20,0,1), ELF (70,50,10,6,5), HOBBIT (20,30,5,2,3);
+      HUMAIN (40,3,10,2,3), NAIN (80,1,20,0,1), ELF (70,5,10,6,5), HOBBIT (20,3,5,2,3);
       private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR, PORTEE_DEPLACEMENT;
       TypesH(int points, int portee, int puissance, int tir, int porteeDepl) 
       {
