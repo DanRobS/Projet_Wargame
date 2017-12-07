@@ -15,6 +15,7 @@ public class Case implements IConfig
 	private Element elem;
 	private int x,y;
 	private Color couleurCase = Color.DARK_GRAY;
+	private Color couleurCaseSec = Color.DARK_GRAY;
 	private Color couleurTxt = Color.WHITE;
 	private String nom = "";
 	public boolean peutBouger, isVide;
@@ -33,6 +34,7 @@ public class Case implements IConfig
 		peutBouger = false;
 		isVide = true;
 		couleurCase = COULEUR_VIDE;
+		couleurCaseSec = COULEUR_VIDE;
 	}
 	
 	public void setPos(int _x, int _y)
@@ -41,9 +43,11 @@ public class Case implements IConfig
 		y = _y;
 	}
 	
-	public void setColor(Color _couleur)
+	public void setColor(Color _couleur, boolean _elem)
 	{
-		couleurCase = _couleur;
+		if(_elem)couleurCase = _couleur;
+		else couleurCaseSec = _couleur;
+		
 	}
 	
 	public void setNom(String _nom)
@@ -62,9 +66,14 @@ public class Case implements IConfig
 	{
 		
 		g.setColor(couleurCase);
-		for(int i = 0; i < 50; i++)
+		for(int i = 0; i < NB_PIX_CASE/2; i++)
 		{
-			g.drawLine(x+i, y, x+i, y+50);
+			g.drawLine(x+i, y, x+i, y+NB_PIX_CASE);
+		}
+		g.setColor(couleurCaseSec);
+		for(int i = NB_PIX_CASE/2; i < NB_PIX_CASE; i++)
+		{
+			g.drawLine(x+i, y, x+i, y+NB_PIX_CASE);
 		}
 		g.setColor(couleurTxt);
 		g.setFont((new Font("Courier New", Font.PLAIN, 40)));
@@ -74,6 +83,7 @@ public class Case implements IConfig
 	}
 	
 	public Color getColor() { return couleurCase; }
+	public Color getColorSec() { return couleurCaseSec; }
 	
 	public Position getPosTab() { return new Position(x/(NB_PIX_CASE+1),y/(NB_PIX_CASE+1)); }
 	public Position getPos() { return new Position(x,y); }
@@ -82,6 +92,6 @@ public class Case implements IConfig
 		elem = null;
 		peutBouger = false;
 		isVide = true;
-		couleurCase = COULEUR_VIDE;
+		couleurCase = couleurCaseSec = COULEUR_VIDE;
 	}
 }

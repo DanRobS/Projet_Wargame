@@ -144,7 +144,8 @@ public class Carte implements ICarte, IConfig
 				
 				getElement(depl).setElement(getElement(monstre.get(itFor).getPos()).getElement());
 				
-				getElement(depl).setColor(COULEUR_MONSTRES);
+				getElement(depl).setColor(COULEUR_MONSTRES,true);
+				getElement(depl).setColor(COULEUR_MONSTRES,false);
 				
 				monstre.get(itFor).seDeplace(depl);
 				
@@ -211,7 +212,9 @@ public class Carte implements ICarte, IConfig
 				}
 			}
 			*/
-			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].setColor(COULEUR_HEROS);
+			
+			
+			//tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].setColor(COULEUR_HEROS);
 			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].seDessiner(g,panneau);
 		}
 	}
@@ -242,7 +245,8 @@ public class Carte implements ICarte, IConfig
 			hr = new Heros(this, h, "", pos);
 			hero.add(hr);
 			tabCase[pos.getX()][pos.getY()].setElement(hr);
-			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_HEROS);
+			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_HEROS,true);
+			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_HEROS,false);
 			tabCase[pos.getX()][pos.getY()].peutBouger = true;
 		}
 	}
@@ -263,7 +267,8 @@ public class Carte implements ICarte, IConfig
 			mstr = new Monstre(this, m, "", pos);
 			monstre.add(mstr);
 			tabCase[pos.getX()][pos.getY()].setElement(mstr);
-			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_MONSTRES);
+			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_MONSTRES, true);
+			tabCase[pos.getX()][pos.getY()].setColor(COULEUR_MONSTRES, false);
 		}
 	}
 	
@@ -283,7 +288,8 @@ public class Carte implements ICarte, IConfig
 			obs = new Obstacle(o, pos);
 			obstacle.add(obs);
 			tabCase[pos.getX()][pos.getY()].setElement(obs);
-			tabCase[pos.getX()][pos.getY()].setColor(o.getColor());
+			tabCase[pos.getX()][pos.getY()].setColor(o.getColor(),true);
+			tabCase[pos.getX()][pos.getY()].setColor(o.getColor(), false);
 		}
 	}
 	
@@ -333,14 +339,14 @@ public class Carte implements ICarte, IConfig
 	{
 		tabCase[_case.getPosTab().getX()][_case.getPosTab().getY()] = new Case(_case.getPos().getX(), _case.getPos().getY());
 	}
-	
+	/*
 	public void setHero(Heros _hero, Case _case)
 	{
 		_hero.seDeplace(_case.getPosTab());
 		tabCase[_case.getPosTab().getX()][_case.getPosTab().getY()].setElement(_hero);
 		_case.peutBouger = true;
 		_case.setColor(COULEUR_HEROS);
-	}
+	}*/
 
 
 	public void addTour() 
@@ -351,6 +357,8 @@ public class Carte implements ICarte, IConfig
 		{
 			((Heros)tabCase[hero.get(itFor).getPos().getX()][hero.get(itFor).getPos().getY()].getElement()).peutBouger = true;
 			((Heros)tabCase[hero.get(itFor).getPos().getX()][hero.get(itFor).getPos().getY()].getElement()).peutAttaquer = true;
+			tabCase[hero.get(itFor).getPos().getX()][hero.get(itFor).getPos().getY()].setColor(COULEUR_HEROS,true);
+			tabCase[hero.get(itFor).getPos().getX()][hero.get(itFor).getPos().getY()].setColor(COULEUR_HEROS,false);
 		}
 		
 		tour++; 

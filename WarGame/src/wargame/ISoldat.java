@@ -27,7 +27,7 @@ public interface ISoldat
    
    public static enum TypesM 
    {
-      TROLL (100,1,30,0,1), ORC (40,2,10,3,1), GOBELIN (20,2,5,2,1);
+      TROLL (100,1,30,0,3), ORC (40,2,10,3,2), GOBELIN (20,2,5,2,3);
       private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR, PORTEE_DEPLACEMENT;
       TypesM(int points, int portee, int puissance, int tir, int porteeDepl) 
       {

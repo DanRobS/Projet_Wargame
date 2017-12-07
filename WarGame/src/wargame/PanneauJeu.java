@@ -84,7 +84,7 @@ public class PanneauJeu extends JPanel implements IConfig
 		
 		
 		/*Boutton Fin de tour*/
-		btnFdT = new JButton(new ImageIcon("C:\\Users\\VOCAN\\git\\Projet_Wargame\\WarGame\\src\\Images\\test.jpg"));
+		btnFdT = new JButton(new ImageIcon("C:\\Users\\VOCAN\\git\\Projet_Wargame\\WarGame\\src\\Images\\bouton.png"));
 		btnFdT.setFocusable(false);
 		btnFdT.setMinimumSize(new Dimension(300, 50));
 		btnFdT.setMaximumSize(new Dimension(300, 50));
@@ -95,19 +95,20 @@ public class PanneauJeu extends JPanel implements IConfig
 					
 					public void actionPerformed (ActionEvent e)
 					{
-						/*try {
-		                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("C:\\Users\\VOCAN\\git\\Projet_Wargame\\WarGame\\src\\Musiques\\fichier.wav"));
+						try {
+		                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("C:\\Users\\VOCAN\\git\\Projet_Wargame\\WarGame\\src\\Musiques\\test2.wav"));
 		                    // Get a sound clip resource.
 		                    Clip clip = AudioSystem.getClip();
 		                    // Open audio clip and load samples from the audio input stream.
 		                    clip.open(audioIn);
+		                    clip.start();
 		                } catch (UnsupportedAudioFileException e1) {
 		                    e1.printStackTrace();
 		                } catch (IOException e1) {
 		                    e1.printStackTrace();
 		                } catch (LineUnavailableException e1) {
 		                    e1.printStackTrace();
-		                }*/
+		                }
 						
 						//Lancer IA
 						jouerIA();
@@ -158,8 +159,8 @@ public class PanneauJeu extends JPanel implements IConfig
 					{
 						Toolkit.getDefaultToolkit().beep();
 						
-						xTab = (int)e.getX()/(NB_PIX_CASE+1);
-						yTab = (int)e.getY()/(NB_PIX_CASE+1);
+						xTab = ((int)e.getX()-deplX)/(NB_PIX_CASE+1);
+						yTab = ((int)e.getY()-deplY)/(NB_PIX_CASE+1);
 						//System.out.println(xTab+"      "+yTab);
 						if(e.getButton() == MouseEvent.BUTTON1 && xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true && ((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutBouger == true)
 						{
@@ -187,22 +188,24 @@ public class PanneauJeu extends JPanel implements IConfig
 						//Déplacement
 						if(enDeplacement && peutJouer)
 						{
-							nX = (int)e.getX()/(NB_PIX_CASE+1);
-							nY = (int)e.getY()/(NB_PIX_CASE+1);
+							nX = ((int)e.getX()-deplX)/(NB_PIX_CASE+1);
+							nY = ((int)e.getY()-deplY)/(NB_PIX_CASE+1);
 							
 							carteJeu.getElement(new Position(xTab,yTab)).setPos(avDeplacement.getX(), avDeplacement.getY());
 							
 							if(nX < LARGEUR_CARTE && nY < HAUTEUR_CARTE && carteJeu.getElement(new Position(nX,nY)).getColor() == Color.pink)
 							{
 								((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutBouger = false;
-								//System.out.println("OK" + xTab + " | " + yTab);
 								repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPortee());
 								((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).seDeplace(new Position(nX,nY));
 								carteJeu.getElement(new Position(nX,nY)).setElement(carteJeu.getElement(new Position(xTab,yTab)).getElement());
-								//System.out.println(xTab + " | " + yTab + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPosTab() + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPos());
+								carteJeu.getElement(new Position(nX,nY)).setColor(Color.cyan,true);
+								if(((Heros)carteJeu.getElement(new Position(nX,nY)).getElement()).peutAttaquer == false) carteJeu.getElement(new Position(nX,nY)).setColor(Color.magenta,false);
+								else carteJeu.getElement(new Position(nX,nY)).setColor(COULEUR_HEROS,false);
 								carteJeu.getElement(new Position(nX,nY)).isVide = false;
 								carteJeu.getElement(new Position(nX,nY)).peutBouger = true;
 								carteJeu.getElement(new Position(xTab,yTab)).reset();
+								
 							}
 							else
 							{
@@ -214,8 +217,8 @@ public class PanneauJeu extends JPanel implements IConfig
 						//Attaque
 						if(enAttaque && peutJouer)
 						{
-							nX = (int)e.getX()/(NB_PIX_CASE+1);
-							nY = (int)e.getY()/(NB_PIX_CASE+1);
+							nX = ((int)e.getX()-deplX)/(NB_PIX_CASE+1);
+							nY = ((int)e.getY()-deplY)/(NB_PIX_CASE+1);
 							
 							carteJeu.getElement(new Position(xTab,yTab)).setPos(avDeplacement.getX(), avDeplacement.getY());
 							
@@ -229,6 +232,7 @@ public class PanneauJeu extends JPanel implements IConfig
 									frame.dispose();
 								}
 								labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
+								carteJeu.getElement(new Position(xTab,yTab)).setColor(Color.magenta,false);
 								((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutAttaquer = false;
 							}
 							repeindreVide(carteJeu.getElement(new Position(xTab,yTab)), Color.white, ((Soldat) carteJeu.getElement(new Position(xTab,yTab)).getElement()).getPorteeDepl());
@@ -246,21 +250,14 @@ public class PanneauJeu extends JPanel implements IConfig
 		{
 			public void mouseDragged(MouseEvent e)
 			{
-				/*
-				if(xTab < LARGEUR_CARTE && yTab < HAUTEUR_CARTE && carteJeu.getElement(new Position(xTab,yTab)).peutBouger == true)
-				{
-					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
-					tableau.repaint();
-				}*/
-				
 				if(enDeplacement && ((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutBouger == true)
 				{
-					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
+					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-deplX-25, (int)e.getY()-deplY-25);
 					tableau.repaint();
 				}
 				else if(enAttaque && ((Heros)carteJeu.getElement(new Position(xTab,yTab)).getElement()).peutAttaquer == true)
 				{
-					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-25, (int)e.getY()-25);
+					carteJeu.getElement(new Position(xTab,yTab)).setPos((int)e.getX()-deplX-25, (int)e.getY()-deplY-25);
 					tableau.repaint();
 				} 
 			}
@@ -273,15 +270,10 @@ public class PanneauJeu extends JPanel implements IConfig
 				Color coulSelect;
 				Soldat soldat;
 				
-				posX = (int)e.getX()/(NB_PIX_CASE+1);
-				posY = (int)e.getY()/(NB_PIX_CASE+1);
+				posX = ((int)e.getX()-deplX)/(NB_PIX_CASE+1);
+				posY = ((int)e.getY()-deplY)/(NB_PIX_CASE+2);
 				if(posX < LARGEUR_CARTE && posY < HAUTEUR_CARTE)
 				{
-					
-		
-					
-					
-					
 					labelTxt = "X : "+posX+" | Y : "+posY;
 					coulSelect = carteJeu.getElement(new Position(posX,posY)).getColor();
 					if(coulSelect == COULEUR_HEROS)
@@ -320,19 +312,19 @@ public class PanneauJeu extends JPanel implements IConfig
             	switch(key)
             	{
             	case 'z':
-            		deplY-=10;
+            		deplY-=NB_PIX_CASE+1;
             		tableau.repaint();
             		break;
             	case 'q':
-            		deplX-=10;
+            		deplX-=NB_PIX_CASE+1;
             		tableau.repaint();
             		break;
             	case 's':
-            		deplY+=10;
+            		deplY+=NB_PIX_CASE+1;
             		tableau.repaint();
             		break;
             	case 'd':
-            		deplX+=10;
+            		deplX+=NB_PIX_CASE+1;
             		tableau.repaint();
             		break;
             	}
@@ -358,7 +350,8 @@ public class PanneauJeu extends JPanel implements IConfig
 			{
 				if(itForl >= 0 && itForl < LARGEUR_CARTE && itForh >= 0 && itForh < HAUTEUR_CARTE && carteJeu.getElement(new Position(itForl, itForh)).isVide)
 				{
-					carteJeu.getElement(new Position(itForl, itForh)).setColor(_couleur);
+					carteJeu.getElement(new Position(itForl, itForh)).setColor(_couleur,true);
+					carteJeu.getElement(new Position(itForl, itForh)).setColor(_couleur,false);
 				}
 			}
 		}
