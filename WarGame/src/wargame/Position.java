@@ -1,7 +1,7 @@
 package wargame;
 
 /**
- * Classe Position
+ * Class Position
  */
 public class Position implements IConfig 
 {

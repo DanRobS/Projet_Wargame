@@ -12,7 +12,7 @@ import wargame.Obstacle.TypeObstacle;
 
 /**
  * 
- * Classe Carte, la carte contient et gere tous les elements.
+ * Class Carte, la carte contient et gere tous les elements.
  *
  */
 public class Carte implements ICarte, IConfig

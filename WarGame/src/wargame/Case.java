@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 /**
  * 
- * Classe qui gere une case du tableau de jeu
+ * Class qui gere une case du tableau de jeu
  *
  */
 public class Case implements IConfig

@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 
 /**
  * 
- * Classe PanneauJeu, gere l'affichage
+ * Class PanneauJeu, gere l'affichage
  *
  */
 public class PanneauJeu extends JPanel implements IConfig

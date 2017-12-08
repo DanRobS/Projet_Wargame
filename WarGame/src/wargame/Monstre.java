@@ -1,7 +1,7 @@
 package wargame;
 
 /**
- * Classe Monstre
+ * Class Monstre
  */
 public class Monstre extends Soldat
 {

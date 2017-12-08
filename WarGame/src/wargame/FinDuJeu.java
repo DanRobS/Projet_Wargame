@@ -1,7 +1,7 @@
 package wargame;
 
 /**
- * Classe FinDuJeu, gere l'exception lancee lors de la fin du jeu
+ * Class FinDuJeu, gere l'exception lancee lors de la fin du jeu
  */
 public class FinDuJeu extends Exception 
 {

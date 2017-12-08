@@ -1,7 +1,7 @@
 package wargame;
 
 /**
- * Classe Soldat
+ * Class Soldat
  */
 public abstract class Soldat extends Element implements ISoldat
 {
@@ -12,6 +12,13 @@ public abstract class Soldat extends Element implements ISoldat
 	
 	/**
 	 * Constructeur
+	 * @param carte Carte
+	 * @param pts PV
+	 * @param portee Portee visuelle
+	 * @param puiss Puissance frappe
+	 * @param tir Puissance tir
+	 * @param porteeDepl Portee deplacement
+	 * @param pos Position
 	 */
 	public Soldat(Carte carte, int pts, int portee, int puiss, int tir, int porteeDepl, Position pos) 
 	{
@@ -53,6 +60,7 @@ public abstract class Soldat extends Element implements ISoldat
 	/**
 	 * Set des degats a un soldat
 	 * @param _degat nombre de PV a retirer au soldat
+	 * @throws FinDuJeu si plus de Heros ou Monstres en vie
 	 */
 	public void setDegat(int _degat) throws FinDuJeu
 	{

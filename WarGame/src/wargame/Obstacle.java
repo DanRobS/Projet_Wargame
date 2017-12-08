@@ -3,7 +3,7 @@ package wargame;
 import java.awt.Color;
 
 /**
- * Classe Obstacle
+ * Class Obstacle
  */
 public class Obstacle extends Element 
 {

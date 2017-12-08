@@ -1,7 +1,7 @@
 package wargame;
 
 /**
- * Classe Element
+ * Class Element
  */
 public abstract class Element implements IConfig
 {
@@ -9,6 +9,7 @@ public abstract class Element implements IConfig
 	
 	/**
 	 * Methode abstraite get position
+	 * @return la Position de l'element
 	 */
 	public abstract Position getPos();
 }

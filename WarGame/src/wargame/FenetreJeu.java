@@ -8,7 +8,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 /**
- * Classe fenetre, gere la fenetre du projet
+ * Class fenetre, gere la fenetre du projet
  */
 public class FenetreJeu implements IConfig
 {

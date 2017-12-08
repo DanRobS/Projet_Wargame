@@ -1,7 +1,7 @@
 package wargame;
 
 /**
- * Classe Heros
+ * Class Heros
  */
 public class Heros extends Soldat
 {
