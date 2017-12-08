@@ -188,6 +188,7 @@ public class PanneauJeu extends JPanel implements IConfig
 						//Déplacement
 						if(enDeplacement && peutJouer)
 						{
+							
 							nX = ((int)e.getX()-deplX)/(NB_PIX_CASE+1);
 							nY = ((int)e.getY()-deplY)/(NB_PIX_CASE+1);
 							
