@@ -21,7 +21,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
+/**
+ * 
+ * Classe PanneauJeu, gere l'affichage
+ *
+ */
 public class PanneauJeu extends JPanel implements IConfig
 {
 	private static final long serialVersionUID = 1L;
@@ -38,6 +42,10 @@ public class PanneauJeu extends JPanel implements IConfig
 	private JFrame frame;
 	private int deplX, deplY;
 	
+	/**
+	 * Constructeur
+	 * @param _frame la fenetre
+	 */
 	public PanneauJeu(JFrame _frame)
 	{
 		deplX = deplY = 0;		
@@ -242,7 +250,7 @@ public class PanneauJeu extends JPanel implements IConfig
 				{
 					labelTxt = "X : "+posX+" | Y : "+posY;
 					coulSelect = carteJeu.getElement(new Position(posX,posY)).getColor();
-					if(coulSelect == COULEUR_HEROS)
+					if(coulSelect == COULEUR_HEROS || coulSelect == Color.cyan || coulSelect == Color.magenta)
 					{
 						soldat = (Soldat) carteJeu.getElement(new Position(posX,posY)).getElement();
 						labelTxt = labelTxt.concat("     Hero : "+ ((Heros) soldat).getType() + " | PV=" + soldat.getPoints()+"/"+soldat.getPointsMax()+" | Puissance="+soldat.getPuissance()+" | Tir="+soldat.getTir());
@@ -293,11 +301,21 @@ public class PanneauJeu extends JPanel implements IConfig
 		tableau.requestFocusInWindow();
 	}
 	
+	/**
+	 * Peint la fenetre
+	 * @param g le Graphics
+	 */
 	public void paintComponent(Graphics g)
 	{	
 		super.paintComponent(g);
 	}
 	
+	/**
+	 * Repeint toutes les cases vides autour de la case passee en parametre
+	 * @param _case la case centrale
+	 * @param _couleur la nouvelle couleur des cases
+	 * @param le rayon sur lequel on repeint
+	 */
 	public void repeindreVide(Case _case, Color _couleur, int _rayon)
 	{
 		int itForl, itForh;
@@ -316,6 +334,9 @@ public class PanneauJeu extends JPanel implements IConfig
 		repaint();
 	}
 	
+	/**
+	 * Lance l'IA
+	 */
 	public void jouerIA()
 	{
 		peutJouer = false;
@@ -329,6 +350,5 @@ public class PanneauJeu extends JPanel implements IConfig
 		repaint();
 		labelHaut.setText("Il reste " + carteJeu.getNbHeros() + " Héros et " + carteJeu.getNbMonstres() + " Monstres");
 		peutJouer = true;
-		
 	}
 }

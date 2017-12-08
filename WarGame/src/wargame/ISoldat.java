@@ -1,4 +1,8 @@
 package wargame;
+
+/**
+ * Interface ISoldat
+ */
 public interface ISoldat 
 {
    static enum TypesH 

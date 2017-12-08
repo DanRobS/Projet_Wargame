@@ -1,9 +1,14 @@
 package wargame;
 
+/**
+ * Classe Element
+ */
 public abstract class Element implements IConfig
 {
 	public Position pos;
-
-	public abstract Position getPos();
 	
+	/**
+	 * Methode abstraite get position
+	 */
+	public abstract Position getPos();
 }

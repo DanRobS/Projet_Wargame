@@ -2,6 +2,9 @@ package wargame;
 
 import java.awt.Color;
 
+/**
+ * Interface IConfig
+ */
 public interface IConfig 
 {
 	int LARGEUR_CARTE = 37; // en nombre de cases

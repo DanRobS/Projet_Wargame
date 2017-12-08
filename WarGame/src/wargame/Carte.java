@@ -10,6 +10,11 @@ import wargame.ISoldat.TypesH;
 import wargame.ISoldat.TypesM;
 import wargame.Obstacle.TypeObstacle;
 
+/**
+ * 
+ * Classe Carte, la carte contient et gere tous les elements.
+ *
+ */
 public class Carte implements ICarte, IConfig
 {
 	private Case[][] tabCase;
@@ -18,6 +23,10 @@ public class Carte implements ICarte, IConfig
 	private ArrayList<Obstacle> obstacle;
 	
 	private int tour;
+	
+	/**
+	 * Constructeur, initialise le tableau et les ArrayList de Heros, Monstres et Obstacles
+	 */
 	public Carte()
 	{
 		tour = 1;
@@ -43,12 +52,20 @@ public class Carte implements ICarte, IConfig
 		
 	}
 	
+	/**
+	 * @return une Case du tableau
+	 * @param pos Position de la Case dans le tableau
+	 */
 	public Case getElement(Position pos) 
 	{
 		return tabCase[pos.getX()][pos.getY()];
 	}
 
-	//Trouve le héro le plus près de cette position
+	/**
+	 * Trouve le hero le plus pres d'une position
+	 * @param pos la position dans le tableau
+	 * @return un Hero
+	 */
 	public Heros trouveHeros(Position pos) 
 	{
 		int itFor;
@@ -67,7 +84,12 @@ public class Carte implements ICarte, IConfig
 		}
 		return hero.get(h);
 	}
-
+	
+	/**
+	 * Tue un Soldat
+	 * @param perso, le Soldat a tuer
+	 * @throws FinDuJeu si il n'y a plus de Heros ou Monstre
+	 */
 	public void mort(Soldat perso) throws FinDuJeu 
 	{
 		tabCase[perso.getPos().getX()][perso.getPos().getY()].reset();
@@ -86,7 +108,11 @@ public class Carte implements ICarte, IConfig
 		}
 	}
 
-	//IA
+	/**
+	 * Gere l'IA
+	 * @param pj le JPanel d'affichage
+	 * @throws FinDuJeu si l'IA gagne pendant son tour
+	 */
 	public void jouerSoldats(PanneauJeu pj) throws FinDuJeu 
 	{
 		int itFor;
@@ -119,7 +145,11 @@ public class Carte implements ICarte, IConfig
 		}
 	}
 
-	//Utile pour afficher le tableau de jeu
+	/**
+	 * Utile pour afficher le tableau de jeu
+	 * @param g Le Graphics
+	 * @param panneau Le JPanel d'affichage
+	 */
 	public void toutDessiner(Graphics g, JPanel panneau) 
 	{
 		int itForl, itForh;
@@ -130,27 +160,20 @@ public class Carte implements ICarte, IConfig
 			{
 				if(!hero.contains(tabCase[itForl][itForh].getElement())) 
 				{
-					tabCase[itForl][itForh].seDessiner(g, panneau);
+					tabCase[itForl][itForh].seDessiner(g);
 				}
 			}
 		}
 		
 		for(itForl = 0; itForl < hero.size(); itForl++)
 		{
-			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].seDessiner(g,panneau);
+			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].seDessiner(g);
 		}
 	}
-
-	public int getNbHeros() { return hero.size(); }
 	
-	public int getNbMonstres() { return monstre.size(); }
-	
-	public void setDeplacementX(double x) { }
-	
-	public void setDeplacementY(double y) { }
-	
-	public int getTour() { return tour; }
-	
+	/**
+	 * Initialise les Heros
+	 */
 	private void initHero()
 	{
 		//Declarations
@@ -173,6 +196,9 @@ public class Carte implements ICarte, IConfig
 		}
 	}
 	
+	/**
+	 * Initialise les Monstres
+	 */
 	private void initMonstre()
 	{
 		//Declarations
@@ -194,6 +220,9 @@ public class Carte implements ICarte, IConfig
 		}
 	}
 	
+	/**
+	 * Initialise les Obstacles
+	 */
 	private void initObstacle()
 	{
 		//Declarations
@@ -215,7 +244,11 @@ public class Carte implements ICarte, IConfig
 		}
 	}
 	
-	//Return une Position vide
+	/**
+	 * Return une Position vide
+	 * @return une position aleatoire VIDE dans une zone du tableau
+	 * @param _xMin _yMin _xMax _yMax Pour delimiter la zone du tableau
+	 */
 	private Position getRandom(int _xMin, int _yMin, int _xMax, int _yMax)
 	{
 		//Declarations
@@ -257,11 +290,18 @@ public class Carte implements ICarte, IConfig
 		return pos;
 	}
 	
+	/**
+	 * Reset de la Case
+	 * @param _case que l'on va remettre a vide
+	 */
 	public void resetCase(Case _case)
 	{
 		tabCase[_case.getPosTab().getX()][_case.getPosTab().getY()] = new Case(_case.getPos().getX(), _case.getPos().getY());
 	}
-
+	
+	/**
+	 * Fonction qui gere l'ajout d'un tour
+	 */
 	public void addTour() 
 	{
 		int itFor;
@@ -276,4 +316,22 @@ public class Carte implements ICarte, IConfig
 		
 		tour++; 
 	}
+	
+	/**
+	 * Return le nombre de Heros vivant
+	 * @return le nombre de Heros vivant
+	 */
+	public int getNbHeros() { return hero.size(); }
+	
+	/**
+	 * Return le nombre de Monstres vivant
+	 * @return le nombre de Monstres vivant
+	 */
+	public int getNbMonstres() { return monstre.size(); }
+	
+	/**
+	 * Return le numero du tour actuel
+	 * @return le numero du tour actuel
+	 */
+	public int getTour() { return tour; }
 }

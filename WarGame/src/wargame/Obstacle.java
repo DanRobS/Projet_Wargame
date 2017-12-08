@@ -2,6 +2,9 @@ package wargame;
 
 import java.awt.Color;
 
+/**
+ * Classe Obstacle
+ */
 public class Obstacle extends Element 
 {
 	private Position pos;

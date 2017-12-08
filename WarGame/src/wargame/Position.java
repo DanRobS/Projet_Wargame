@@ -1,5 +1,8 @@
 package wargame;
 
+/**
+ * Classe Position
+ */
 public class Position implements IConfig 
 {
 	private int x, y;
@@ -18,6 +21,10 @@ public class Position implements IConfig
 		return ((Math.abs(x-pos.x)<=1) && (Math.abs(y-pos.y)<=1));
 	}
 	
+	/**
+	 * Fonction qui return la distance entre deux Positions
+	 * @param pos
+	 */
 	public int distance(Position pos) 
 	{
 		return (int)(Math.sqrt((Math.pow(pos.x-x, 2))+(Math.pow(pos.y-y, 2))));

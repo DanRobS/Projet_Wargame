@@ -4,6 +4,9 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+/**
+ * Interface ICarte
+ */
 public interface ICarte 
 {
 	Case getElement(Position pos);
