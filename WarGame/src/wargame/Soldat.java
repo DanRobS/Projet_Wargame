@@ -19,13 +19,6 @@ public abstract class Soldat extends Element implements ISoldat
 		this.pos = pos;
 	}
 
-	//Tour de jeu IA
-	public void joueTour(int tour)
-	{
-		
-	}
-
-	
 	/*Combat entre deux soldats*/
 	public void combat(Soldat soldat) throws FinDuJeu 
 	{

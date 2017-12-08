@@ -43,29 +43,9 @@ public class Carte implements ICarte, IConfig
 		
 	}
 	
-	
-	@Override
 	public Case getElement(Position pos) 
 	{
 		return tabCase[pos.getX()][pos.getY()];
-	}
-
-	@Override
-	public Position trouvePositionVide() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Position trouvePositionVide(Position pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Heros trouveHeros() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	//Trouve le héro le plus près de cette position
@@ -88,13 +68,6 @@ public class Carte implements ICarte, IConfig
 		return hero.get(h);
 	}
 
-	@Override
-	public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void mort(Soldat perso) throws FinDuJeu 
 	{
 		tabCase[perso.getPos().getX()][perso.getPos().getY()].reset();
@@ -111,12 +84,6 @@ public class Carte implements ICarte, IConfig
 			//C'est gagne
 			throw new FinDuJeu(0);
 		}
-	}
-
-	@Override
-	public boolean actionHeros(Position pos, Position pos2) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	//IA
@@ -140,8 +107,6 @@ public class Carte implements ICarte, IConfig
 				//Déplacement aléatoire de 1 case
 				depl = getRandom(monstre.get(itFor).getPos().getX()-monstre.get(itFor).getPorteeDepl(), monstre.get(itFor).getPos().getY()-monstre.get(itFor).getPorteeDepl(), monstre.get(itFor).getPos().getX()+monstre.get(itFor).getPorteeDepl(), monstre.get(itFor).getPos().getY()+monstre.get(itFor).getPorteeDepl());
 				
-				//System.out.println("X : "+depl.getX()+" | Y : "+depl.getY());
-				
 				getElement(depl).setElement(getElement(monstre.get(itFor).getPos()).getElement());
 				
 				getElement(depl).setColor(COULEUR_MONSTRES,true);
@@ -150,12 +115,6 @@ public class Carte implements ICarte, IConfig
 				monstre.get(itFor).seDeplace(depl);
 				
 				getElement(avant).reset();
-				
-				
-				
-				
-				//System.out.println(xTab + " | " + yTab + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPosTab() + " | " + carteJeu.getElement(new Position(xTab,yTab)).getPos());
-				
 			}
 		}
 	}
@@ -163,7 +122,7 @@ public class Carte implements ICarte, IConfig
 	//Utile pour afficher le tableau de jeu
 	public void toutDessiner(Graphics g, JPanel panneau) 
 	{
-		int itForl, itForh, itFor1, itFor2, xMin, xMax, yMin, yMax;
+		int itForl, itForh;
 		
 		for(itForl = 0; itForl < LARGEUR_CARTE; itForl++)
 		{
@@ -171,7 +130,6 @@ public class Carte implements ICarte, IConfig
 			{
 				if(!hero.contains(tabCase[itForl][itForh].getElement())) 
 				{
-					//tabCase[itForl][itForh].setColor(COULEUR_INCONNU);
 					tabCase[itForl][itForh].seDessiner(g, panneau);
 				}
 			}
@@ -179,42 +137,6 @@ public class Carte implements ICarte, IConfig
 		
 		for(itForl = 0; itForl < hero.size(); itForl++)
 		{
-			/*
-			xMin=hero.get(itForl).getPos().getX()-hero.get(itForl).getPorteeDepl();
-			xMax=hero.get(itForl).getPos().getX()+hero.get(itForl).getPorteeDepl();
-			yMin=hero.get(itForl).getPos().getY()-hero.get(itForl).getPorteeDepl();
-			yMax=hero.get(itForl).getPos().getY()+hero.get(itForl).getPorteeDepl();
-			
-			if(xMin < 0) xMin = 0;
-			if(yMin < 0) yMin = 0;
-			if(xMax >= LARGEUR_CARTE) xMax = LARGEUR_CARTE-1;
-			if(yMax >= HAUTEUR_CARTE) yMax = HAUTEUR_CARTE-1;
-			for(itFor1 = xMin; itFor1 < xMax; itFor1++)
-			{
-				for(itFor2 = yMin; itFor2 < yMax; itFor2++)
-				{
-					if(tabCase[itFor1][itFor2].isVide)
-					{
-						tabCase[itFor1][itFor2].setColor(COULEUR_VIDE);
-						tabCase[itFor1][itFor2].seDessiner(g);
-					}
-					else if(monstre.contains(tabCase[itFor1][itFor2].getElement()))
-					{
-						tabCase[itFor1][itFor2].setColor(COULEUR_MONSTRES);
-						tabCase[itFor1][itFor2].seDessiner(g);
-					}
-					else if(obstacle.contains(tabCase[itFor1][itFor2].getElement()))
-					{
-						tabCase[itFor1][itFor2].setColor(COULEUR_EAU);
-						tabCase[itFor1][itFor2].seDessiner(g);
-					}
-					
-				}
-			}
-			*/
-			
-			
-			//tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].setColor(COULEUR_HEROS);
 			tabCase[hero.get(itForl).getPos().getX()][hero.get(itForl).getPos().getY()].seDessiner(g,panneau);
 		}
 	}
@@ -339,15 +261,6 @@ public class Carte implements ICarte, IConfig
 	{
 		tabCase[_case.getPosTab().getX()][_case.getPosTab().getY()] = new Case(_case.getPos().getX(), _case.getPos().getY());
 	}
-	/*
-	public void setHero(Heros _hero, Case _case)
-	{
-		_hero.seDeplace(_case.getPosTab());
-		tabCase[_case.getPosTab().getX()][_case.getPosTab().getY()].setElement(_hero);
-		_case.peutBouger = true;
-		_case.setColor(COULEUR_HEROS);
-	}*/
-
 
 	public void addTour() 
 	{

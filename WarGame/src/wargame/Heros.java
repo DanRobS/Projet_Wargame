@@ -13,15 +13,7 @@ public class Heros extends Soldat
 		peutAttaquer = peutBouger = true;
 	}
 
-	@Override
 	public int getTour() {return 0;}
 	public TypesH getType() {return TYPE;}
 	public String getNom() {return NOM;}
-
-	@Override
-	public void joueTour(int tour) 
-	{
-			
-	}
-	
 }

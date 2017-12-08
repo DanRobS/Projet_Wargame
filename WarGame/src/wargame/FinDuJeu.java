@@ -2,9 +2,6 @@ package wargame;
 
 public class FinDuJeu extends Exception 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8045519042622070299L;
 	public String nom;
 	public FinDuJeu(int _gagnant) 

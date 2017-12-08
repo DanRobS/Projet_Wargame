@@ -14,7 +14,6 @@ public class FenetreJeu implements IConfig
 	{
 		JFrame frame = new JFrame("Test");
 		PanneauJeu panneau = new PanneauJeu(frame);
-		//frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //IMPORTANT -> libérer mémoire
 		frame.setSize(1920, 1080);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -25,7 +24,7 @@ public class FenetreJeu implements IConfig
 		panneau.setAutoscrolls(false);
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image cursorImage = tk.getImage("C:\\Users\\VOCAN\\git\\Projet_Wargame\\WarGame\\src\\Images\\Curseur.png");
+		Image cursorImage = tk.getImage(tk.getClass().getResource("/wargame/Images/Curseur.png"));
 		Cursor cursor = tk.createCustomCursor(cursorImage, new Point(0, 0), "Custom Cusor Not Paint");
 		
 		frame.setCursor(cursor);
