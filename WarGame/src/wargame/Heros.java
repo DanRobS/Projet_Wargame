@@ -11,6 +11,10 @@ public class Heros extends Soldat
 	
 	/**
 	 * Constructeur
+	 * @param carte Carte
+	 * @param type Type
+	 * @param nom Nom
+	 * @param pos Position
 	 */
 	public Heros(Carte carte, TypesH type, String nom, Position pos) 
 	{

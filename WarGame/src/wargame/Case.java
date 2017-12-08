@@ -3,7 +3,6 @@ package wargame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import javax.swing.JPanel;
 
 /**
  * 
@@ -23,6 +22,8 @@ public class Case implements IConfig
 	/**
 	 * Constructeur
 	 * Initialise la case a vide
+	 * @param _x position x sur l'ecran
+	 * @param _y position y sur l'ecran
 	 */
 	public Case(int _x, int _y)
 	{
@@ -36,7 +37,8 @@ public class Case implements IConfig
 	
 	/**
 	 * Set la position d'une case sur l'ecran
-	 * @param _x _y La position a l'ecran
+	 * @param _x La position a l'ecran
+	 * @param _y La position a l'ecran
 	 */
 	public void setPos(int _x, int _y)
 	{

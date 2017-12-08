@@ -314,7 +314,7 @@ public class PanneauJeu extends JPanel implements IConfig
 	 * Repeint toutes les cases vides autour de la case passee en parametre
 	 * @param _case la case centrale
 	 * @param _couleur la nouvelle couleur des cases
-	 * @param le rayon sur lequel on repeint
+	 * @param _rayon le rayon sur lequel on repeint
 	 */
 	public void repeindreVide(Case _case, Color _couleur, int _rayon)
 	{

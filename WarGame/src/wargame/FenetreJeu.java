@@ -14,6 +14,7 @@ public class FenetreJeu implements IConfig
 {
 	/**
 	 * Main du projet, construit la fenetre et l'affiche
+	 * @param args Arguments
 	 */
 	public static void main(String[] args) 
 	{

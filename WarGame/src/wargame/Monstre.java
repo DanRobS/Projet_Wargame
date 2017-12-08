@@ -10,6 +10,10 @@ public class Monstre extends Soldat
 	
 	/**
 	 * Constructeur
+	 * @param carte Carte
+	 * @param type Type
+	 * @param nom Nom
+	 * @param pos Position
 	 */
 	public Monstre(Carte carte, TypesM type, String nom, Position pos)
 	{

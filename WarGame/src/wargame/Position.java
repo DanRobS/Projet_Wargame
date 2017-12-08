@@ -23,7 +23,8 @@ public class Position implements IConfig
 	
 	/**
 	 * Fonction qui return la distance entre deux Positions
-	 * @param pos
+	 * @param pos Position
+	 * @return La distance
 	 */
 	public int distance(Position pos) 
 	{
